@@ -27,7 +27,7 @@ function loadUrl(location)
 	if (document.getElementById("inactivecheck").checked) {params = params + "&inactive=true"} else {params = params + "&inactive=clear"} ;
 	if (document.getElementById("statuscheck").checked) {params = params + "&status=true"} else {params = params + "&status=clear"};
 
-//Send the proper header information along with the request
+//Send the proper header information along with the request - dummy commit
 
 
 if (window.XMLHttpRequest)
