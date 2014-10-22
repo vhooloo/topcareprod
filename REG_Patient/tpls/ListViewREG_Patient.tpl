@@ -166,7 +166,7 @@ function datedropdown(name,label, data, id, prev)
 		$('#jqxgrid').jqxGrid('addfilter', this.data, filtergroup, true);
 		this.selectval = document.getElementById(this.data).value;
 		clickname = this.data;
-		//$('#jqxgrid').jqxGrid('applyfilters');
+		$('#jqxgrid').jqxGrid('applyfilters'); //filter bug
 	}
 	
 	function sessionparam() {
@@ -570,9 +570,9 @@ function datedropdown(name,label, data, id, prev)
 			{ text: 'Patient Name', filtertype: 'textbox', filtercondition: 'starts_with', datafield: 'patientname', width: 140, renderer:columnsrenderer, sortable: true, cellsrenderer:patientrenderer },
 			{ text: 'Patient Name', datafield: 'patientnameexport', width: 140, hidden:true},
 			{ text: 'MRN', filtertype: 'textbox', filtercondition: 'starts_with', datafield: 'mrn', renderer:columnsrenderer, width: 110},
-			{ text: 'Refill',   datafield: 'refill', filtertype: 'date', width: 140,  renderer:columnsrenderer,  sortable:true, cellsrenderer:dateoverduerenderer, cellsformat: 'd' },
+			{ text: 'Refill',   datafield: 'refill', filtertype: 'range', width: 140,  renderer:columnsrenderer,  sortable:true, cellsrenderer:dateoverduerenderer, cellsformat: 'd' },
 			{ text: 'Status',   hidden: true, datafield: 'status',  width: 20, filterable:false},
-			{ text: 'Last UTS', filtertype: 'date',  datafield: 'last_uts',  width: 140,   renderer:columnsrenderer, sortable:true, cellsformat: 'd' },
+			{ text: 'Last UTS', filtertype: 'range',  datafield: 'last_uts',  width: 140,   renderer:columnsrenderer, sortable:true, cellsformat: 'd' },
 			//{ text: 'Next PCP', filtertype: 'date',  datafield: 'next_pcp',  width: 140,    renderer:columnsrenderer, sortable:true, cellsformat: 'd' },
 			{ text: 'PCP', datafield: 'pcp', filtertype: 'textbox', width: 120,  renderer:columnsrenderer },
 			{ text: 'Risk Level', datafield: 'risk', filtertype: 'list', filteritems: ['LOW', 'MODERATE', 'HIGH', 'NA'], renderer:columnsrenderer, width: 100},
