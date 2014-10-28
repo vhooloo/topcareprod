@@ -77,7 +77,7 @@
 body{font-family:Verdana,Arial,sans-serif !important}
 table.view { border-collapse:collapse; }
 
-table.view td, table.view th { font-size:80%; } 
+table.view td, table.view th { font-size:100%; } 
 
 table.list th div {
 
@@ -682,8 +682,12 @@ window.onload = function()
    </table >
    <table width="100%" >
     <tr>
-     <td colspan="2" scope="col">Notes<br>
-      <textarea tabindex="12" name="history_c" id="history_c" rows="8" style="width:95%"  maxlength="20000" >{if  ($notes_flag == "true")} {$datarow.history_c} {/if}</textarea></td>
+	 <td width= "50%"> Notes<br>
+      <textarea tabindex="12" name="history_c" id="history_c" rows="8" style="width:95%"  maxlength="20000" >{if  ($notes_flag == "true")} {$datarow.history_c} {/if}</textarea> </td>
+	 <td id = "mainsticky-container" width = "50%">
+	  <b> {if  ($datarow.pills_bottle_disp_c ne 28)} <img src='custom/themes/default/images/aberrant_behavior.gif'> <span style="white-space: nowrap;"> ALERT DAYS DISPENSED NOT 28 {/if} </span></b> 
+	    <div id = "sticky-container" />
+	  </td> 	
     </tr>
     
     <!-- only for refill --> 

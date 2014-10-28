@@ -27,7 +27,7 @@ function loadUrl(location)
 	if (document.getElementById("inactivecheck").checked) {params = params + "&inactive=true"} else {params = params + "&inactive=clear"} ;
 	if (document.getElementById("statuscheck").checked) {params = params + "&status=true"} else {params = params + "&status=clear"};
 
-//Send the proper header information along with the request
+//Send the proper header information along with the request - dummy commit
 
 
 if (window.XMLHttpRequest)
@@ -166,7 +166,7 @@ function datedropdown(name,label, data, id, prev)
 		$('#jqxgrid').jqxGrid('addfilter', this.data, filtergroup, true);
 		this.selectval = document.getElementById(this.data).value;
 		clickname = this.data;
-		$('#jqxgrid').jqxGrid('applyfilters');
+		$('#jqxgrid').jqxGrid('applyfilters'); //filter bug
 	}
 	
 	function sessionparam() {
@@ -306,16 +306,16 @@ function datedropdown(name,label, data, id, prev)
 	//$("#jqxgrid").jqxGrid('showcolumn', 'patientname');
 	});
 	
-	//$(window).focus(function() {
-	//$("#jqxgrid").jqxGrid('showcolumn', 'patientname');
-	//$("#jqxgrid").jqxGrid('showcolumn', 'action');
-	//$("#jqxgrid").jqxGrid('hidecolumn', 'patientnameexport');
-	//});
+	$(window).focus(function() {
+	$("#jqxgrid").jqxGrid('showcolumn', 'patientname');
+	$("#jqxgrid").jqxGrid('showcolumn', 'action');
+	$("#jqxgrid").jqxGrid('hidecolumn', 'patientnameexport');
+	});
 	
-	//$(document).click(function(event) {
-	//	window.lastElementClicked = event.target;
+	$(document).click(function(event) {
+		window.lastElementClicked = event.target;
 		//alert(event.target);
-	//});
+	});
 
 	function refillfilter(value, type) {
 	
@@ -467,10 +467,9 @@ function datedropdown(name,label, data, id, prev)
 					{ name: 'mrn', type: 'string' },
                     { name: 'refill', type: 'date' },
                     { name: 'status', type: 'string' },
-					{ name: 'pcp', type: 'string'},
 					{ name: 'last_uts', type: 'date' },
 					//{ name: 'next_pcp', type: 'date' },
- 
+                    { name: 'pcp', type: 'string'},
 					{name: 'risk', type: 'string'},
                     { name: 'action', type: 'string' }
                 ],
@@ -573,10 +572,9 @@ function datedropdown(name,label, data, id, prev)
 			{ text: 'MRN', filtertype: 'textbox', filtercondition: 'starts_with', datafield: 'mrn', renderer:columnsrenderer, width: 110},
 			{ text: 'Refill',   datafield: 'refill', filtertype: 'range', width: 140,  renderer:columnsrenderer,  sortable:true, cellsrenderer:dateoverduerenderer, cellsformat: 'd' },
 			{ text: 'Status',   hidden: true, datafield: 'status',  width: 20, filterable:false},
-			{ text: 'PCP', datafield: 'pcp', filtertype: 'textbox', width: 120,  renderer:columnsrenderer },
 			{ text: 'Last UTS', filtertype: 'range',  datafield: 'last_uts',  width: 140,   renderer:columnsrenderer, sortable:true, cellsformat: 'd' },
 			//{ text: 'Next PCP', filtertype: 'date',  datafield: 'next_pcp',  width: 140,    renderer:columnsrenderer, sortable:true, cellsformat: 'd' },
-			
+			{ text: 'PCP', datafield: 'pcp', filtertype: 'textbox', width: 120,  renderer:columnsrenderer },
 			{ text: 'Risk Level', datafield: 'risk', filtertype: 'list', filteritems: ['LOW', 'MODERATE', 'HIGH', 'NA'], renderer:columnsrenderer, width: 100},
 			{ text: 'Action', datafield: 'action',  width: 100,  cellsrenderer:linkrenderer, filterable:false, renderer:columnsrenderer, sortable:false }
 		]//,			groups: ['PCP']

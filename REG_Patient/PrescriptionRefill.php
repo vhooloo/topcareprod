@@ -17,7 +17,10 @@ echo '<script type="text/javascript" src="custom/jquery/jquery-1.9.1.js"></scrip
 	<script type="text/javascript" src="custom/jquery/accordion/js/jquery-ui-1.10.0.custom.js"></script>
 	<script type="text/javascript" src="custom/jquery/accordion/js/jquery-migrate-1.2.1.min.js"></script>
 	
-	<script type="text/javascript">
+	<script type="text/javascript" src="custom/topcarejs/jquery-sticky-notes/script/jquery.stickynotes.js"></script>
+	<link rel="stylesheet" href="custom/topcarejs/jquery-sticky-notes/css/jquery.stickynotes.css" type="text/css">
+	
+	<script type="text/javascript"> //<!-- Added Sticky Notes 10/28/2014, needs javascript files -->
 	$(function() {
 		$( "#tabs" ).tabs({
 			beforeLoad: function( event, ui ) {
@@ -34,8 +37,28 @@ echo '<script type="text/javascript" src="custom/jquery/jquery-1.9.1.js"></scrip
 
 	echo '<script type="text/javascript">	
 	
+	var clicksave = function() {
+	
+      var note_ids = jQuery.fn.stickyNotes.currentlyEditedNotes();
+			for (var i = note_ids.length - 1; i >= 0; i--){
+				var note_id = note_ids[i]
+				if (note_id != null) {
+					jQuery.fn.stickyNotes.stopEditing(note_id);
+				}				
+			};
+		 document.getElementById("stickynotes_history_c").value= JSON.stringify(jQuery.fn.stickyNotes.notes);
+		 var _form = document.getElementById(\'EditView\'); 
+		 _form.action.value=\'Save\'; 
+		 if(check_form(\'EditView\')) _form.submit();
+	};
+	
 	$(document).ready(function() {
-    
+    //<!-- Added Sticky Notes 10/28/2014, needs javascript files, add fields to database in studio, add div id called notes, stickynotes etc to tpl -->
+		var options;
+
+	if ( document.getElementById("stickynotes_history_c").value != "" )
+     	{ try {options = JSON.parse(\'{"notes":\' + document.getElementById("stickynotes_history_c").value + \'}\'); $("#notes").stickyNotes(options);}  catch(err){$("#notes").stickyNotes();}  }
+	else { $("#notes").stickyNotes();}
     
     $(".add-tab").click(function() {
 
