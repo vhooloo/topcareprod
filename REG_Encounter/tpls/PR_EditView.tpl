@@ -685,7 +685,7 @@ window.onload = function()
    <table width="100%" >
     <tr>
 	 <td width= "50%"> Notes<br>
-      <textarea tabindex="12" name="history_c" id="history_c" rows="8" style="width:95%"  maxlength="20000" >{if  ($notes_flag == "true")} {$datarow.history_c} {/if}</textarea> </td>
+      <textarea tabindex="12" name="history_c" id="history_c" rows="12" style="width:95%"  maxlength="20000" >{if  ($notes_flag == "true")} {$datarow.history_c} {/if}</textarea> </td>
 	 <td id = "mainsticky-container" width = "50%">
 	    <b> {if  ($datarow.pills_bottle_disp_c ne 28)} <img src='custom/themes/default/images/aberrant_behavior.gif'> <span style="white-space: nowrap;"> ALERT DAYS DISPENSED NOT 28 {/if} </span></b> 
 	    <div id = "sticky-container" />
@@ -811,14 +811,8 @@ window.onload = function()
       &nbsp;<br/>
       {/if} <br>
       <table border="0" cellpadding="0" cellspacing="0" style="width:100%">
-       <tr>
-        <td style="vertical-align:bottom !important;" align="right">
-         <input type="checkbox" tabindex="78" id="narcotic_contract_in_chart_c" name="narcotic_contract_in_chart_c" value="1" title=""  {if ( $datarow1.narcotic_contract_in_chart_c  >
-         0   )} checked="checked" {/if}  > <span> &nbsp;Controlled Substance Agreement signed on &nbsp;&nbsp;</span></td>
-        <td style="width:110px !important" width="110"><span class="dateTime">
-         <input tabindex="79" class="date_input" autocomplete="off" type="text" name="narcotic_contract_sign_c" id="narcotic_contract_sign_c" title="" size="10" maxlength="10">&thinsp;<img src="themes/Sugar5/images/jscalendar.gif?v=GogGz9QEok1-e0Ft6rexxQ" alt="Enter Date" style="position:relative; height:16px; top:3px" border="0" id="narcotic_contract_sign_c_trigger"> </span></td>
-       </tr>
-       <tr>
+	  
+	  <tr>  <!-- NExt RX Refill -->
         <td style="vertical-align:middle !important" width="70%" align="right" >Next Rx Refill : &nbsp;&nbsp;</td>
         <td width="30%"><span class="dateTime"> {literal} 
          <script type="text/javascript">
@@ -875,7 +869,7 @@ function check_date(element){
 
 </script> 
          {/literal}
-         <input class="date_input" autocomplete="off" tabindex="24" type="text" name="next_rx_refill_due_c" onchange='check_date(this);' id="next_rx_refill_due_c" value="{$datarow.next_rx_refill_due_c|date_format:'%m/%d/%Y'}" title="" size="10" maxlength="10" {if ( time() - strtotime($datarow.next_rx_refill_due_c)  > 0   )} style="color:red" {/if} >&thinsp;<img src="themes/Sugar5/images/jscalendar.gif?v=GogGz9QEok1-e0Ft6rexxQ" alt="Enter Date" style="position:relative; height:16px; top:3px" border="0" id="next_rx_refill_due_c_trigger">
+         <input class="date_input" autocomplete="off" tabindex="24" type="text" name="next_rx_refill_due_c" onchange='check_date(this);' id="next_rx_refill_due_c" value="{$datarow.next_rx_refill_due_c|date_format:'%m/%d/%Y'}" title="" size="10" maxlength="10" {if ( time() - strtotime($datarow.next_rx_refill_due_c)  > 0   )} style="color:red" {/if} >&thinsp;<img src="themes/Sugar5/images/jscalendar.gif?v=GogGz9QEok1-e0Ft6rexxQ" alt="Enter Date" style="position:relative; height:20px; top:3px" border="0" id="next_rx_refill_due_c_trigger">
          </span> {literal} 
          <script type="text/javascript">
 
@@ -906,6 +900,52 @@ weekNumbers:false
 </script> 
          {/literal}</td>
        </tr>
+	  
+	  <tr> <!-- PILL COUNT -->
+        <td style="vertical-align:middle !important" align="right">
+{if $smarty.request.action=='PetientEncounter'}
+         &nbsp;Next Pill Count {else}Pill Count {/if} : &nbsp;&nbsp;</td>
+        <td><span class="dateTime">
+         <pre style="margin-top:0; margin-bottom:0;">
+
+<input class="date_input" autocomplete="off" tabindex="32" type="text" onchange='check_date(this);' name="next_pill_ct_c" id="next_pill_ct_c" value="{$datarow.next_pill_ct_c|date_format:'%m/%d/%Y'}" title="" size="10" maxlength="10" {if ( time() - strtotime($datarow.next_pill_ct_c)  > 0   )} style="color:red" {/if}>&thinsp;<img src="themes/Sugar5/images/jscalendar.gif?v=GogGz9QEok1-e0Ft6rexxQ" alt="Enter Date" style="position:relative; height:20px; top:3px" border="0" id="next_pill_ct_c_trigger"></pre>
+         </span> {literal}<script type="text/javascript">
+
+Calendar.setup ({
+
+inputField : "next_pill_ct_c",
+
+ifFormat : "%m/%d/%Y %I:%M%P",
+
+daFormat : "%m/%d/%Y %I:%M%P",
+
+button : "next_pill_ct_c_trigger",
+
+singleClick : true,
+
+dateStr : "",
+
+startWeekday: 0,
+
+step : 1,
+
+weekNumbers:false
+
+}
+
+);
+
+</script>{/literal} </td>
+       </tr>
+	   
+       <tr> <!-- Narcotic contract -->
+        <td style="vertical-align:bottom !important;" align="right">
+         <input type="checkbox" tabindex="78" id="narcotic_contract_in_chart_c" name="narcotic_contract_in_chart_c" value="1" title=""  {if ( $datarow1.narcotic_contract_in_chart_c  >
+         0   )} checked="checked" {/if}  > <span> &nbsp;Controlled Substance Agreement signed on &nbsp;&nbsp;</span></td>
+        <td style="width:110px !important" width="110"><span class="dateTime">
+         <input tabindex="79" class="date_input" autocomplete="off" type="text" name="narcotic_contract_sign_c" id="narcotic_contract_sign_c" title="" size="10" maxlength="10">&thinsp;<img src="themes/Sugar5/images/jscalendar.gif?v=GogGz9QEok1-e0Ft6rexxQ" alt="Enter Date" style="position:relative; height:20px; top:3px" border="0" id="narcotic_contract_sign_c_trigger"> </span></td>
+       </tr>
+       
        {if $smarty.request.action=='PetientEncounter'}
        <tr>
         <td align="right">Next NCM Visit : &nbsp;&nbsp;</td>
@@ -942,49 +982,14 @@ weekNumbers:false
          {/literal}</td>
        </tr>
        {/if}
-       <tr>
-        <td style="vertical-align:middle !important" align="right">
-{if $smarty.request.action=='PetientEncounter'}
-         &nbsp;Next Pill Count {else}Pill Count {/if} : &nbsp;&nbsp;</td>
-        <td><span class="dateTime">
-         <pre style="margin-top:0; margin-bottom:0;">
 
-<input class="date_input" autocomplete="off" tabindex="32" type="text" onchange='check_date(this);' name="next_pill_ct_c" id="next_pill_ct_c" value="{$datarow.next_pill_ct_c|date_format:'%m/%d/%Y'}" title="" size="10" maxlength="10" {if ( time() - strtotime($datarow.next_pill_ct_c)  > 0   )} style="color:red" {/if}>&thinsp;<img src="themes/Sugar5/images/jscalendar.gif?v=GogGz9QEok1-e0Ft6rexxQ" alt="Enter Date" style="position:relative; height:16px; top:3px" border="0" id="next_pill_ct_c_trigger"></pre>
-         </span> {literal}<script type="text/javascript">
-
-Calendar.setup ({
-
-inputField : "next_pill_ct_c",
-
-ifFormat : "%m/%d/%Y %I:%M%P",
-
-daFormat : "%m/%d/%Y %I:%M%P",
-
-button : "next_pill_ct_c_trigger",
-
-singleClick : true,
-
-dateStr : "",
-
-startWeekday: 0,
-
-step : 1,
-
-weekNumbers:false
-
-}
-
-);
-
-</script>{/literal} </td>
-       </tr>
        <tr>
         <td style="vertical-align:middle !important" align="right">{if $smarty.request.action=='PetientEncounter'}
          &nbsp;Next PMP Review {else}PMP Review {/if} &nbsp; (<a href='https://gateway.hhs.state.ma.us/authn/login.do' target='_blank' style='display: inline; text-align: right;'>Link to PMP</a>) : &nbsp;&nbsp;</td>
         <td><span class="dateTime">
          <pre style="margin-top:0; margin-bottom:0;">
 
-<input class="date_input" tabindex="56" autocomplete="off" type="text" name="next_pmp_review_due_c" id="next_pmp_review_due_c" onchange='check_date(this);' value="{$datarow.next_pmp_review_due_c|date_format:'%m/%d/%Y'}" title=""  size="10" maxlength="10" {if ( time() - strtotime($datarow.next_pmp_review_due_c)  > 0   )} style="color:red" {/if} >&thinsp;<img src="themes/Sugar5/images/jscalendar.gif?v=GogGz9QEok1-e0Ft6rexxQ" alt="Enter Date" style="position:relative; height:16px; top:3px" border="0" id="next_pmp_review_due_c_trigger" ></pre>
+<input class="date_input" tabindex="56" autocomplete="off" type="text" name="next_pmp_review_due_c" id="next_pmp_review_due_c" value="{$datarow.next_pmp_review_due_c|date_format:'%m/%d/%Y'}" title=""  size="10" maxlength="10">&thinsp;<img src="themes/Sugar5/images/jscalendar.gif?v=GogGz9QEok1-e0Ft6rexxQ" alt="Enter Date" style="position:relative; height:20px; top:3px" border="0" id="next_pmp_review_due_c_trigger" ></pre>
          </span> {literal} 
          <script type="text/javascript">
 
@@ -1032,7 +1037,7 @@ weekNumbers:false
          <br>
          <span class="dateTime">
          <input class="date_input" autocomplete="off" type="text" name="pretty_date" id="pretty_date" tabindex="64" readonly onchange='check_date(this);' value="" title=""  size="10" maxlength="10">
-         <img src="themes/Sugar5/images/jscalendar.gif?v=GogGz9QEok1-e0Ft6rexxQ" alt="Enter Date" style="position:relative; height:16px; top:3px" border="0" id="pretty_date_trigger"> </span> {literal}<script type="text/javascript">
+         <img src="themes/Sugar5/images/jscalendar.gif?v=GogGz9QEok1-e0Ft6rexxQ" alt="Enter Date" style="position:relative; height:20px; top:3px" border="0" id="pretty_date_trigger"> </span> {literal}<script type="text/javascript">
 
 Calendar.setup ({
 
@@ -1178,8 +1183,8 @@ document.getElementById('pretty_date').value="";
        </tr>{/if}
        <tr><td colspan="2"><span id="copy_text_div"></span> &nbsp;<textarea id="clipboard_textarea" style="display:none"></textarea></td></tr>
        <tr> <td align="right" style="m-right:10px; !important"> {{sugar_button module="$module" id="SAVE" view="$view" form_id="$form_id" location="HEADER" appendTo="header_buttons"}} &nbsp; {{sugar_action_menu buttons=$header_buttons class="fancymenu" flat=true}} </td>
-	   
-		<td>&nbsp;<br>&nbsp; <input style="font-size:12px !important" type="button" id="copy-button" onclick="copyToClipboard()" title="Copy information to Logician." class="button primary" value="Copy"></td>
+	    <!-- 10/24/2014 - removed this copy button, make it look like others, move to PrescriptionRefill.phph file -->
+		<td>&nbsp;<br>&nbsp; <!--input style="font-size:12px !important" type="button" id="copy-button" onclick="copyToClipboard()" title="Copy information to Logician." class="button primary" value="Copy"--></td>
     </tr>
       </table>
       {literal} 

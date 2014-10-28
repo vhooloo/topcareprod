@@ -1214,10 +1214,13 @@ echo "</div>";
 	$ida = $this->bean->id;
 	
 	echo "<script type='text/javascript'>
- 
+    //10/28/2014 buttons changes to acommodate sticky notes and bigger font
    
-	\$(function(){\$('.moduleTitle').remove();});		
-	    \$(function(){ \$('.action_buttons div').remove(); \$('.action_buttons').append('<input type=\"button\" id=\"back\" title=\"Back to registry\" value=\"Back to Registry\" onclick=\"javascript:window.location.href=\'index.php?module=REG_Patient&action=index&parentTab=Registry\'\">');
+	\$(function(){\$('.moduleTitle').remove();});	\$('#SAVE_HEADER').remove();	
+	    \$(function(){ \$('.action_buttons div').remove(); 
+		\$('.action_buttons').append('<input type=\"button\" id=\"mysave\" title=\"Mysave\" value=\"Save\"  onclick=\" clicksave();\">');
+		\$('.action_buttons').append('<input type=\"button\" id=\"back\" title=\"Back\" value=\"Back\" onclick=\"javascript:window.location.href=\'index.php?module=REG_Patient&action=index&parentTab=Registry\'\">');
+		\$('.action_buttons').append('<input type=\"button\" id=\"mycopy\" title=\"Copy To Clipboard\" value=\"Copy\"  onclick=\" copyToClipboard()();\">');
 	\$('.action_buttons').append($('#copy_text_div'))});
 	  document.getElementById('reg_patient_reg_encounterreg_patient_ida').value='".$ida."';
 	  /*var combine = document.getElementById('next_appt_other_c').value;
