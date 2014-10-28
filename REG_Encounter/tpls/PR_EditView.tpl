@@ -668,7 +668,7 @@ window.onload = function()
 {/php}
 <div class="clear"></div>
 <form action="index.php" method="POST" name="{$form_name}" id="{$form_id}" {$enctype}>
- <table style="border-color: rgb( 100, 100, 255); border-style: solid none none none ; border-collapse:collapse; margin-top: 0;vertical-align: top;" width="100%" cellpadding="0" cellspacing="0" border="0" class="edit view panelContainer">
+ <table id="notes" style="border-color: rgb( 100, 100, 255); border-style: solid none none none ; border-collapse:collapse; margin-top: 0;vertical-align: top;" width="100%" cellpadding="0" cellspacing="0" border="0" class="edit view panelContainer">
    <tr >
   
   <td style="width:100%;border-color: rgb( 100, 100, 255); border-style: solid solid solid solid; border-width: 2px; margin-top: 0;vertical-align: top;" colspan="3" ><table width="100%" style="width:100%;border-color: rgb( 100, 100, 255); border-style:  none none solid none; border-width: 2px; margin-top: 0;vertical-align: top;">
@@ -680,12 +680,14 @@ window.onload = function()
       <input tabindex="08"  type="checkbox" id="patient_present_c" name="patient_present_c" {if ( $datarow.patient_present_c > 0 )} checked="checked" {/if} value="1" title="" ></td>
     </tr>
    </table >
+         <!-- style="display:none;" -->
+         <textarea tabindex="999" name="stickynotes_history_c" id="stickynotes_history_c" rows="8"  style="display:none;" maxlength="20000">{$datarow.stickynotes_history_c}</textarea>
    <table width="100%" >
     <tr>
 	 <td width= "50%"> Notes<br>
       <textarea tabindex="12" name="history_c" id="history_c" rows="8" style="width:95%"  maxlength="20000" >{if  ($notes_flag == "true")} {$datarow.history_c} {/if}</textarea> </td>
 	 <td id = "mainsticky-container" width = "50%">
-	  <b> {if  ($datarow.pills_bottle_disp_c ne 28)} <img src='custom/themes/default/images/aberrant_behavior.gif'> <span style="white-space: nowrap;"> ALERT DAYS DISPENSED NOT 28 {/if} </span></b> 
+	    <b> {if  ($datarow.pills_bottle_disp_c ne 28)} <img src='custom/themes/default/images/aberrant_behavior.gif'> <span style="white-space: nowrap;"> ALERT DAYS DISPENSED NOT 28 {/if} </span></b> 
 	    <div id = "sticky-container" />
 	  </td> 	
     </tr>

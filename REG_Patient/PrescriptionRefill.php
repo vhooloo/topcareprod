@@ -20,7 +20,7 @@ echo '<script type="text/javascript" src="custom/jquery/jquery-1.9.1.js"></scrip
 	<script type="text/javascript" src="custom/topcarejs/jquery-sticky-notes/script/jquery.stickynotes.js"></script>
 	<link rel="stylesheet" href="custom/topcarejs/jquery-sticky-notes/css/jquery.stickynotes.css" type="text/css">
 	
-	<script type="text/javascript"> //<!-- Added Sticky Notes 10/28/2014, needs javascript files -->
+	<script type="text/javascript"> 
 	$(function() {
 		$( "#tabs" ).tabs({
 			beforeLoad: function( event, ui ) {
@@ -58,8 +58,8 @@ echo '<script type="text/javascript" src="custom/jquery/jquery-1.9.1.js"></scrip
 
 	if ( document.getElementById("stickynotes_history_c").value != "" )
      	{ try {options = JSON.parse(\'{"notes":\' + document.getElementById("stickynotes_history_c").value + \'}\'); $("#notes").stickyNotes(options);}  catch(err){$("#notes").stickyNotes();}  }
-	else { $("#notes").stickyNotes();}
-    
+	else {  $("#notes").stickyNotes();}
+ 
     $(".add-tab").click(function() {
 
         var num_tabs = $("div#tabs ul#tablist li").length + 1;
