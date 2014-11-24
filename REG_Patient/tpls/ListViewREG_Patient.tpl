@@ -335,12 +335,13 @@ function datedropdown(name,label, data, id, prev)
 
 	<script type="text/javascript">
 	var refilldaysselect;
+    var data = new Array();
 	
 	
 	
 	{literal}
 	
-			var source =
+	var source =
 	{
 		localdata: data,
 		datafields:
@@ -460,7 +461,7 @@ function datedropdown(name,label, data, id, prev)
 		}
 	 }
 	 
-	 	 function auditfilter(auditcheckbox) {
+	 function auditfilter(auditcheckbox) {
 	
       
 	  var filtergroup = new $.jqx.filter();
@@ -513,7 +514,7 @@ function datedropdown(name,label, data, id, prev)
         //$(document).load(function () {
 
 				
-	var data = new Array();
+	//var data = new Array();
 	var i = 0;
 
 	
@@ -557,7 +558,7 @@ function datedropdown(name,label, data, id, prev)
 				return '<select id="mysort'+row+'" name="mysort'+row+'" onchange="switch (document.getElementById(\'mysort'+row+'\').selectedIndex) { case 1: loadUrl(\'./index.php?module=REG_Patient&action=PrescriptionRefill&record='+value+'\'); break; case 2:  loadUrl(\'./index.php?module=REG_Patient&action=PatientEncounter&record='+value+'\'); break; case 3: loadUrl(\'./index.php?module=REG_Patient&action=riskevaluation&patid='+value+'\');break;}"> <option value="Action"  selected>Action</option><option value="Refill" >Refill</option><option value="Enc" >Encounter</option><option value="risk" >Risk Evaluation</option>	</select>';
     }
 	
-		var auditrenderer = function (row, column, value) {
+	var auditrenderer = function (row, column, value) {
 	        // call function update audit and pass parameters
 	        var fstr = "updateaudit(this, '" + row + "','" + value + "')";
 	        if (value.split("//")[0] == "false")
@@ -666,7 +667,7 @@ function datedropdown(name,label, data, id, prev)
 			//{ text: 'Next PCP', filtertype: 'date',  datafield: 'next_pcp',  width: 140,    renderer:columnsrenderer, sortable:true, cellsformat: 'd' },
 
 			{ text: 'Risk Level', datafield: 'risk', filtertype: 'list', filteritems: ['LOW', 'MODERATE', 'HIGH', 'NA'], renderer:columnsrenderer, width: 100},
-			{ text: 'Action', datafield: 'action',  width: 120,  cellsrenderer:linkrenderer, filterable:false, renderer:columnsrenderer, sortable:false menu:false },
+			{ text: 'Action', datafield: 'action',  width: 120,  cellsrenderer:linkrenderer, filterable:false, renderer:columnsrenderer, sortable:false, menu:false },
 			{ text: 'Audit', datafield: 'audit',  width: 60,  cellsrenderer:auditrenderer, filterable:false, renderer:auditfilterrenderer,sortable:false, menu:false },
 		]//,			groups: ['PCP']
 	});

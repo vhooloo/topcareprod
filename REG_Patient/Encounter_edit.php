@@ -501,7 +501,7 @@ TemplateHandler::clearCache('REG_Encounter','EditView.tpl');   //ADDED :--------
 			//$tmp = str_replace("^","'",$this->bean3->abherrent_behaviors_c);
 			//$tmp = str_replace("^,^","<br>",$this->bean3->abherrent_behaviors_c);
 			//$tmp = str_replace("^","",$tmp);
-			
+			$this->dv3->ss->assign("abherrent_behaviors", str_replace("^","",$this->bean3->abherrent_behaviors_c));   //show notes on view of previous 
 			$tmp = str_replace("^,^","</li><li>",$this->bean3->abherrent_behaviors_c);
 			$tmp = str_replace("^","<li>",$tmp);
 			//print $this->bean3->abherrent_behaviors_c;

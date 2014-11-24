@@ -49,6 +49,9 @@ echo '<script type="text/javascript" src="custom/jquery/jquery-1.9.1.js"></scrip
 				}				
 			};
 		 document.getElementById("stickynotes_history_c").value= JSON.stringify(jQuery.fn.stickyNotes.notes);
+		 
+		  savelistbox();
+		  
 		 var _form = document.getElementById(\'EditView\'); 
 		 _form.action.value=\'Save\'; 
 		 if(check_form(\'EditView\')) _form.submit();
@@ -1222,9 +1225,9 @@ echo "</div>";
     //10/28/2014 buttons changes to acommodate sticky notes and bigger font
    
 	\$(function(){\$('.moduleTitle').remove();});	
-	//\$('#SAVE_HEADER').remove();	
+	\$('#SAVE_HEADER').remove();	
 	    \$(function(){ \$('.action_buttons div').remove(); 
-	//	\$('.action_buttons').append('<input type=\"button\" id=\"mysave\" title=\"Mysave\" value=\"Save\"  onclick=\" clicksave();\">');
+		\$('.action_buttons').append('<input type=\"button\" id=\"mysave\" title=\"Mysave\" value=\"Save\"  onclick=\" clicksave();\">');
 		\$('.action_buttons').append('<input type=\"button\" id=\"back\" title=\"Back\" value=\"Back\" onclick=\"javascript:window.location.href=\'index.php?module=REG_Patient&action=index&parentTab=Registry\'\">');
 		\$('.action_buttons').append('<input type=\"button\" id=\"mycopy\" title=\"Copy To Clipboard\" value=\"Copy\"  onclick=\" copyToClipboard()();\">');
 	\$('.action_buttons').append($('#copy_text_div'))});

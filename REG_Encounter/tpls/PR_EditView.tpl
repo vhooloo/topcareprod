@@ -666,6 +666,19 @@ window.onload = function()
 //if (!empty($_POST['regnamesort'])) $_SESSION['regnamesort']=$_POST['regnamesort'];
 
 {/php}
+    
+	<script type="text/javascript" src="custom/topcarejs/jquery-sticky-notes/script/jquery.stickynotes.js?version=5"></script>
+	<link rel="stylesheet" href="custom/topcarejs/jquery-sticky-notes/css/jquery.stickynotes.css?version=5" type="text/css">
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap-theme.min.css">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+
+
 <div class="clear"></div>
 <form action="index.php" method="POST" name="{$form_name}" id="{$form_id}" {$enctype}>
  <table id="notes" style="border-color: rgb( 100, 100, 255); border-style: solid none none none ; border-collapse:collapse; margin-top: 0;vertical-align: top;" width="100%" cellpadding="0" cellspacing="0" border="0" class="edit view panelContainer">
@@ -760,8 +773,8 @@ window.onload = function()
 
    <table style="width:100%;border-color: rgb( 100, 100, 255); border-style: solid none none none; border-width: 2px; margin-top: 0;vertical-align: top;">
     <tr>
-     <td width="48%"> <strong>Aberrant Behavior Noted:</strong> <br>
-      <select name="abherrent_behaviors_c[]" id="abherrent_behaviors_c" tabindex="60" multiple="multiple" style="height:200px; width:340px !important">
+     <td width="48%"> <strong>Aberrant Behaviors Noted:</strong> <br>
+      <!--select name="abherrent_behaviors_c[]" id="abherrent_behaviors_c" tabindex="60" multiple="multiple" style="height:200px; width:340px !important">
        <optgroup>
        <optgroup label="Monitoring Non-adherence">
        <option value="RefusePillCount" id="RefusePillCount" >Refuse pill count</option>
@@ -781,7 +794,85 @@ window.onload = function()
        <option value="ConcerningBehaviorPMP" id="ConcerningBehaviorPMP">PMP</option>
        <option value="ConcerningBehaviorOther" id="ConcerningBehaviorOther">Other - family reports, intoxication, disruptive behavior</option>
        </optgroup>
-      </select></td>
+      </select-->
+	  
+	  	  {if  ($notes_flag != "true")}  
+				   <div class="row">
+			  <div class="col-md-8">
+				<div class="input-group">
+				  <span class="input-group-addon">
+					<input type="checkbox" id = "abck1" onclick="highlight(this,'abtxt1');">
+				  </span>
+				  <input type="text" class="form-control input-sm" id= "abtxt1" value = "Refuse Pill Count" style="background-color:#EEE;" onclick="document.getElementById('abck1').focus();">
+				</div><!-- /input-group -->
+			  </div><!-- /.col-lg-6 -->
+			 </div><!-- /.row -->
+			  <div class="row">
+			  <div class="col-md-8">
+				<div class="input-group">
+				  <span class="input-group-addon">
+					<input type="checkbox" id = "abck2" onclick="highlight(this,'abtxt2');">
+				  </span>
+				  <input type="text" class="form-control input-sm"  id= "abtxt2" value = "Refuse UDT" style="background-color:#EEE;" onclick="document.getElementById('abck1').focus();">
+				</div><!-- /input-group -->
+			  </div><!-- /.col-lg-6 -->
+			 </div><!-- /.row -->
+			  <div class="row">
+			  <div class="col-md-8">
+				<div class="input-group">
+				  <span class="input-group-addon">
+					<input type="checkbox" id = "abck3" onclick="highlight(this,'abtxt3');">
+				  </span>
+				  <input type="text" class="form-control input-sm"  id= "abtxt3" value = "Incorrect Pill Count" style="background-color:#EEE;" onclick="document.getElementById('abck1').focus();">
+				</div><!-- /input-group -->
+			  </div><!-- /.col-lg-6 -->
+			 </div><!-- /.row -->
+			   <div class="row">
+			  <div class="col-md-8">
+				<div class="input-group">
+				  <span class="input-group-addon">
+					<input type="checkbox" id = "abck4" onclick="highlight(this,'abtxt4');">
+				  </span>
+				  <input type="text" class="form-control input-sm"  id= "abtxt4"  value = "Unsanctioned Dose Escalation" style="background-color:#EEE;" onclick="document.getElementById('abck1').focus();">
+				</div><!-- /input-group -->
+			  </div><!-- /.col-lg-6 -->
+			 </div><!-- /.row -->
+			   <div class="row">
+			  <div class="col-md-8">
+				<div class="input-group">
+				  <span class="input-group-addon">
+					<input type="checkbox" id = "abck5" onclick="highlight(this,'abtxt5');">
+				  </span>
+				  <input type="text" class="form-control input-sm"  id= "abtxt5"  value = "PMP" style="background-color:#EEE;" onclick="document.getElementById('abck1').focus();">
+				</div><!-- /input-group -->
+			  </div><!-- /.col-lg-6 -->
+			 </div><!-- /.row -->
+			  <div class="row">
+			  <div class="col-md-8">
+				<div class="input-group">
+				  <span class="input-group-addon">
+					<input type="checkbox" id = "abck6" onclick="highlight(this,'abtxt6');">
+				  </span>
+				  <input type="text" class="form-control" value = "Unexpected UDT Result" id = "abtxt6" style="background-color:#EEE;" onclick="document.getElementById('abck1').focus();">
+				</div><!-- /input-group -->
+			  </div><!-- /.col-lg-6 -->
+			 </div><!-- /.row -->
+			  <div class="row">
+			  <div class="col-md-8">
+				<div class="input-group">
+				  <span class="input-group-addon">
+					<input type="checkbox" id = "abck7" onclick="highlight(this,'abtxt7');">
+				  </span>
+				  <input type="text" class="form-control" value="Other(Specify)" id="abtxt7"  maxlength="40" onclick="if (this.value == 'Other(Specify)')  this.value = '';">
+				</div><!-- /input-group -->
+			  </div><!-- /.col-lg-6 -->
+			 </div><!-- /.row -->
+		{/if}
+		{if  ($notes_flag == "true")} 
+			{$abherrent_behaviors}
+		{/if}
+	  
+	  </td>
      <td width="52%" style="padding-left:2px !important; vertical-align:top !important" valign="top"><strong>Risk Level &nbsp;</strong>
       <input size="10" type="text" name='risklvl_c' id='risklvl_c' readonly value="{if $finalscore eq ""}N/A{elseif $finalscore eq 'N/A'}N/A{elseif $finalscore eq "0-3" }LOW{elseif $finalscore eq "4-7"}Moderate{elseif $finalscore eq "gt7"}High{else}{$finalscore}{/if}" />
       &nbsp;&nbsp;<input style="font-size:12px !important" type="button" id="view-button" onclick="window.open('index.php?module=REG_Patient&action=riskevaluation&patid={$smarty.request.record}&flag=1')" title="View Risk Evaluation" class="button primary" value="View"><br>
@@ -869,7 +960,7 @@ function check_date(element){
 
 </script> 
          {/literal}
-         <input class="date_input" autocomplete="off" tabindex="24" type="text" name="next_rx_refill_due_c" onchange='check_date(this);' id="next_rx_refill_due_c" value="{$datarow.next_rx_refill_due_c|date_format:'%m/%d/%Y'}" title="" size="10" maxlength="10" {if ( time() - strtotime($datarow.next_rx_refill_due_c)  > 0   )} style="color:red" {/if} >&thinsp;<img src="themes/Sugar5/images/jscalendar.gif?v=GogGz9QEok1-e0Ft6rexxQ" alt="Enter Date" style="position:relative; height:20px; top:3px" border="0" id="next_rx_refill_due_c_trigger">
+         <input class="date_input" autocomplete="off" tabindex="24" type="text" name="next_rx_refill_due_c" onchange='check_date(this);' id="next_rx_refill_due_c" value="{$datarow.next_rx_refill_due_c|date_format:'%m/%d/%Y'}" title="" size="10" maxlength="10" {if ( time() - strtotime($datarow.next_rx_refill_due_c)  > 0   )} style="color:red" {/if} >&thinsp;<img src="themes/Sugar5/images/jscalendar.gif?v=GogGz9QEok1-e0Ft6rexxQ" alt="Enter Date" style="position:relative; height:20px; bottom:3px" border="0" id="next_rx_refill_due_c_trigger">
          </span> {literal} 
          <script type="text/javascript">
 
@@ -906,9 +997,9 @@ weekNumbers:false
 {if $smarty.request.action=='PetientEncounter'}
          &nbsp;Next Pill Count {else}Pill Count {/if} : &nbsp;&nbsp;</td>
         <td><span class="dateTime">
-         <pre style="margin-top:0; margin-bottom:0;">
+         
 
-<input class="date_input" autocomplete="off" tabindex="32" type="text" onchange='check_date(this);' name="next_pill_ct_c" id="next_pill_ct_c" value="{$datarow.next_pill_ct_c|date_format:'%m/%d/%Y'}" title="" size="10" maxlength="10" {if ( time() - strtotime($datarow.next_pill_ct_c)  > 0   )} style="color:red" {/if}>&thinsp;<img src="themes/Sugar5/images/jscalendar.gif?v=GogGz9QEok1-e0Ft6rexxQ" alt="Enter Date" style="position:relative; height:20px; top:3px" border="0" id="next_pill_ct_c_trigger"></pre>
+<input class="date_input" autocomplete="off" tabindex="32" type="text" onchange='check_date(this);' name="next_pill_ct_c" id="next_pill_ct_c" value="{$datarow.next_pill_ct_c|date_format:'%m/%d/%Y'}" title="" size="10" maxlength="10" {if ( time() - strtotime($datarow.next_pill_ct_c)  > 0   )} style="color:red" {/if}>&thinsp;<img src="themes/Sugar5/images/jscalendar.gif?v=GogGz9QEok1-e0Ft6rexxQ" alt="Enter Date" style="position:relative; height:20px; bottom:3px" border="0" id="next_pill_ct_c_trigger">
          </span> {literal}<script type="text/javascript">
 
 Calendar.setup ({
@@ -943,7 +1034,7 @@ weekNumbers:false
          <input type="checkbox" tabindex="78" id="narcotic_contract_in_chart_c" name="narcotic_contract_in_chart_c" value="1" title=""  {if ( $datarow1.narcotic_contract_in_chart_c  >
          0   )} checked="checked" {/if}  > <span> &nbsp;Controlled Substance Agreement signed on &nbsp;&nbsp;</span></td>
         <td style="width:110px !important" width="110"><span class="dateTime">
-         <input tabindex="79" class="date_input" autocomplete="off" type="text" name="narcotic_contract_sign_c" id="narcotic_contract_sign_c" title="" size="10" maxlength="10">&thinsp;<img src="themes/Sugar5/images/jscalendar.gif?v=GogGz9QEok1-e0Ft6rexxQ" alt="Enter Date" style="position:relative; height:20px; top:3px" border="0" id="narcotic_contract_sign_c_trigger"> </span></td>
+         <input tabindex="79" class="date_input" autocomplete="off" type="text" name="narcotic_contract_sign_c" id="narcotic_contract_sign_c" title="" size="10" maxlength="10">&thinsp;<img src="themes/Sugar5/images/jscalendar.gif?v=GogGz9QEok1-e0Ft6rexxQ" alt="Enter Date" style="position:relative; height:20px; bottom:3px" border="0" id="narcotic_contract_sign_c_trigger"> </span></td>
        </tr>
        
        {if $smarty.request.action=='PetientEncounter'}
@@ -951,7 +1042,7 @@ weekNumbers:false
         <td align="right">Next NCM Visit : &nbsp;&nbsp;</td>
         <td><span class="dateTime">
          <input class="date_input" tabindex="48" autocomplete="off" type="text" name="nxt_appt_pain_c" id="nxt_appt_pain_c" onchange='check_date(this);' value="{$datarow.nxt_appt_pain_c|date_format:'%m/%d/%Y'}" title=""  size="10" maxlength="10" {if ( time() - strtotime($datarow.nxt_appt_pain_c)  >
-         0   )} style="color:red" {/if}> <img src="themes/Sugar5/images/jscalendar.gif?v=GogGz9QEok1-e0Ft6rexxQ" alt="Enter Date" style="position:relative; height:16px; top:3px" border="0" id="nxt_appt_pain_c_trigger"> </span> {literal} 
+         0   )} style="color:red" {/if}> <img src="themes/Sugar5/images/jscalendar.gif?v=GogGz9QEok1-e0Ft6rexxQ" alt="Enter Date" style="position:relative; height:16px; bottom:3px" border="0" id="nxt_appt_pain_c_trigger"> </span> {literal} 
          <script type="text/javascript">
 
 Calendar.setup ({
@@ -987,9 +1078,9 @@ weekNumbers:false
         <td style="vertical-align:middle !important" align="right">{if $smarty.request.action=='PetientEncounter'}
          &nbsp;Next PMP Review {else}PMP Review {/if} &nbsp; (<a href='https://gateway.hhs.state.ma.us/authn/login.do' target='_blank' style='display: inline; text-align: right;'>Link to PMP</a>) : &nbsp;&nbsp;</td>
         <td><span class="dateTime">
-         <pre style="margin-top:0; margin-bottom:0;">
+         
 
-<input class="date_input" tabindex="56" autocomplete="off" type="text" name="next_pmp_review_due_c" id="next_pmp_review_due_c" value="{$datarow.next_pmp_review_due_c|date_format:'%m/%d/%Y'}" title=""  size="10" maxlength="10">&thinsp;<img src="themes/Sugar5/images/jscalendar.gif?v=GogGz9QEok1-e0Ft6rexxQ" alt="Enter Date" style="position:relative; height:20px; top:3px" border="0" id="next_pmp_review_due_c_trigger" ></pre>
+<input class="date_input" tabindex="56" autocomplete="off" type="text" name="next_pmp_review_due_c" id="next_pmp_review_due_c" value="{$datarow.next_pmp_review_due_c|date_format:'%m/%d/%Y'}" title=""  size="10" maxlength="10">&thinsp;<img src="themes/Sugar5/images/jscalendar.gif?v=GogGz9QEok1-e0Ft6rexxQ" alt="Enter Date" style="position:relative; height:20px; top:3px" border="0" id="next_pmp_review_due_c_trigger" >
          </span> {literal} 
          <script type="text/javascript">
 
@@ -1295,6 +1386,54 @@ weekNumbers:false
     {{/if}} </td>
   </tr>
  </table>
+ 
+  <select name="abherrent_behaviors_c[]" id="abherrent_behaviors_c" tabindex="60" multiple="multiple" style="display:none;overflow:hidden;">
+       <!--option value="RefusePillCount" id="RefusePillCount" >Refuse pill count</option-->
+  </select>
+ 
+  <script type="text/javascript">
+	function addlistbox(addtext) 
+	{ldelim} 
+		var src = document.getElementById("abherrent_behaviors_c");
+		
+		var newOption = document.createElement("option");
+                newOption.value = addtext;
+                newOption.text = addtext;
+                newOption.selected = true;
+                try {ldelim} 
+                         src.add(newOption, null); //Standard
+ 
+                 {rdelim}catch(error) {ldelim} 
+                         src.add(newOption); // IE only
+ 
+                 {rdelim}
+	{rdelim} 
+	
+	function highlight(control, texttgt)
+	{ldelim}
+		if (control.checked)
+			{ldelim} document.getElementById(texttgt).style.background='#f68428'; 
+					 //addlistbox( document.getElementById(texttgt).value);
+			{rdelim}
+		else
+			{ldelim} document.getElementById(texttgt).style.background='#EEE'; 
+
+			{rdelim}
+	{rdelim}
+	
+	function savelistbox()
+	{ldelim}
+	    
+		if ( document.getElementById('abck1').checked ) {ldelim} addlistbox(document.getElementById('abtxt1').value); {rdelim}
+		if ( document.getElementById('abck2').checked ) {ldelim} addlistbox(document.getElementById('abtxt2').value); {rdelim}
+		if ( document.getElementById('abck3').checked ) {ldelim} addlistbox(document.getElementById('abtxt3').value); {rdelim}
+		if ( document.getElementById('abck4').checked ) {ldelim} addlistbox(document.getElementById('abtxt4').value); {rdelim}
+		if ( document.getElementById('abck5').checked ) {ldelim} addlistbox(document.getElementById('abtxt5').value); {rdelim}
+		if ( document.getElementById('abck6').checked ) {ldelim} addlistbox(document.getElementById('abtxt6').value); {rdelim}
+		if ( document.getElementById('abck7').checked ) {ldelim} addlistbox(document.getElementById('abtxt7').value); {rdelim}
+		//alert('done Saving');
+	{rdelim}
+  </script> 
  
  <!-- START OF UTS accordion--> 
  
