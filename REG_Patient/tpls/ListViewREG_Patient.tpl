@@ -96,6 +96,52 @@ xmlhttp.send(params);
 
 }
 
+
+function updateaudit(auditcheck, row, value)
+{
+//ajax update - auditcheck is the current checkbox, row is value of data in array data[row], value is trueorfalse//pid
+//get pid, get state, update using the pid
+    var id = new Array();
+	var flag;
+	
+	if (auditcheck.checked) flag = 1; else flag = 0;
+	
+	id = value.split('//');
+	//alert('hereh'+flag+value);
+	//alert(flag + id[1]);
+
+ 
+    var params = "&pid="+id[1]+"&audit_flag="+flag;
+	//alert(params+row+data[row]["patientname"]);
+	//alert(data[row]["audit"]);
+	data[row]["audit"] = flag == 1? "true//"+id[1]: "false//"+id[1];
+	
+	var state = $("#jqxgrid").jqxGrid('savestate');
+	//var viewcontent = JSON.stringify(state);
+	var dataAdapter = new $.jqx.dataAdapter(source);
+    $("#jqxgrid").jqxGrid({ source: dataAdapter });
+	$("#jqxgrid").jqxGrid('loadstate',state);
+	//alert(data[row]["audit"]);
+	if (window.XMLHttpRequest)
+	  {// code for IE7+, Firefox, Chrome, Opera, Safari
+	  xmlhttp=new XMLHttpRequest();
+	  }
+	else {
+		   xmlhttp=new ActiveXObject('Microsoft.XMLHTTP');
+	}
+	xmlhttp.onreadystatechange=function()
+	  {
+	  
+	  }
+
+	xmlhttp.open("POST","index.php?entryPoint=updatepatientaudit",true);
+	xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	xmlhttp.setRequestHeader("Content-length", params.length);
+	xmlhttp.setRequestHeader("Connection", "close");
+	xmlhttp.send(params); 
+}
+
+
 function datedropdown(name,label, data, id, prev)
 {
 	 this.name 		= name;
@@ -202,25 +248,25 @@ function datedropdown(name,label, data, id, prev)
 
 
     <!--script type="text/javascript" src="../../scripts/jquery-1.10.2.min.js"></script-->
-    <script type="text/javascript" src="custom/topcarejs/jqwidgets/jqxcore.js"></script>
-    <script type="text/javascript" src="custom/topcarejs/jqwidgets/jqxdata.js"></script>
-    <script type="text/javascript" src="custom/topcarejs/jqwidgets/jqxbuttons.js"></script>
-    <script type="text/javascript" src="custom/topcarejs/jqwidgets/jqxscrollbar.js"></script>
-    <script type="text/javascript" src="custom/topcarejs/jqwidgets/jqxlistbox.js"></script>
-    <script type="text/javascript" src="custom/topcarejs/jqwidgets/jqxdropdownlist.js"></script>
-    <script type="text/javascript" src="custom/topcarejs/jqwidgets/jqxmenu.js"></script>
-    <script type="text/javascript" src="custom/topcarejs/jqwidgets/jqxgrid.js"></script>
-    <script type="text/javascript" src="custom/topcarejs/jqwidgets/jqxgrid.filter.js"></script>
-	<script type="text/javascript" src="custom/topcarejs/jqwidgets/jqxgrid.storage.js"></script>
-    <script type="text/javascript" src="custom/topcarejs/jqwidgets/jqxgrid.selection.js"></script>
-    <script type="text/javascript" src="custom/topcarejs/jqwidgets/jqxcheckbox.js"></script>
-	<script type="text/javascript" src="custom/topcarejs/jqwidgets/jqxgrid.sort.js"></script>
-	<script type="text/javascript" src="custom/topcarejs/jqwidgets/jqxcalendar.js"></script>
-    <script type="text/javascript" src="custom/topcarejs/jqwidgets/jqxdatetimeinput.js"></script>
-	<script type="text/javascript" src="custom/topcarejs/jqwidgets/jqxgrid.grouping.js"></script>
-	<script type="text/javascript" src="custom/topcarejs/jqwidgets/globalization/globalize.js"></script>
-	<script type="text/javascript" src="custom/topcarejs/jqwidgets/jqxdata.export.js"></script> 
-	<script type="text/javascript" src="custom/topcarejs/jqwidgets/jqxgrid.export.js"></script> 
+    <script type="text/javascript" src="custom/topcarejs/jqwidgets/jqxcore.js?version=2"></script>
+    <script type="text/javascript" src="custom/topcarejs/jqwidgets/jqxdata.js?version=2"></script>
+    <script type="text/javascript" src="custom/topcarejs/jqwidgets/jqxbuttons.js?version=2"></script>
+    <script type="text/javascript" src="custom/topcarejs/jqwidgets/jqxscrollbar.js?version=2"></script>
+    <script type="text/javascript" src="custom/topcarejs/jqwidgets/jqxlistbox.js?version=2"></script>
+    <script type="text/javascript" src="custom/topcarejs/jqwidgets/jqxdropdownlist.js?version=2"></script>
+    <script type="text/javascript" src="custom/topcarejs/jqwidgets/jqxmenu.js?version=2"></script>
+    <script type="text/javascript" src="custom/topcarejs/jqwidgets/jqxgrid.js?version=2"></script>
+    <script type="text/javascript" src="custom/topcarejs/jqwidgets/jqxgrid.filter.js?version=2"></script>
+	<script type="text/javascript" src="custom/topcarejs/jqwidgets/jqxgrid.storage.js?version=2"></script>
+    <script type="text/javascript" src="custom/topcarejs/jqwidgets/jqxgrid.selection.js?version=2"></script>
+    <script type="text/javascript" src="custom/topcarejs/jqwidgets/jqxcheckbox.js?version=2"></script>
+	<script type="text/javascript" src="custom/topcarejs/jqwidgets/jqxgrid.sort.js?version=2"></script>
+	<script type="text/javascript" src="custom/topcarejs/jqwidgets/jqxcalendar.js?version=2"></script>
+    <script type="text/javascript" src="custom/topcarejs/jqwidgets/jqxdatetimeinput.js?version=2"></script>
+	<script type="text/javascript" src="custom/topcarejs/jqwidgets/jqxgrid.grouping.js?version=2"></script>
+	<script type="text/javascript" src="custom/topcarejs/jqwidgets/globalization/globalize.js?version=2"></script>
+	<script type="text/javascript" src="custom/topcarejs/jqwidgets/jqxdata.export.js?version=2"></script> 
+	<script type="text/javascript" src="custom/topcarejs/jqwidgets/jqxgrid.export.js?version=2"></script> 
 	
 	<!--[if IE 7]>
 		<script type="text/javascript" src="custom/topcarejs/json2.js"></script>
@@ -293,6 +339,32 @@ function datedropdown(name,label, data, id, prev)
 	
 	
 	{literal}
+	
+			var source =
+	{
+		localdata: data,
+		datafields:
+                [
+				    { name: 'active', type: 'string' },
+					{ name: 'location', type: 'string' },
+					{ name: 'patientname', type: 'string' },
+					{ name: 'patientnameexport', type: 'string' },
+					{ name: 'mrn', type: 'string' },
+                    { name: 'refill', type: 'date' },
+                    { name: 'status', type: 'string' },
+					{ name: 'last_uts', type: 'date' },
+					//{ name: 'next_pcp', type: 'date' },
+                    { name: 'pcp', type: 'string'},
+					{name: 'risk', type: 'string'},
+                    { name: 'action', type: 'string' },
+					{name: 'audit', type: 'string'}
+                ],
+		datatype: "array"
+		//sortcolumn: 'patientname',
+		//sortdirection: 'asc'
+	};
+	
+	
 	$("#excelExport").click(function() {
 	//alert("test");
 	//for (var zz1=0;zz1<data.length;zz1++) {
@@ -306,11 +378,11 @@ function datedropdown(name,label, data, id, prev)
 	//$("#jqxgrid").jqxGrid('showcolumn', 'patientname');
 	});
 	
-	$(window).focus(function() {
-	$("#jqxgrid").jqxGrid('showcolumn', 'patientname');
-	$("#jqxgrid").jqxGrid('showcolumn', 'action');
-	$("#jqxgrid").jqxGrid('hidecolumn', 'patientnameexport');
-	});
+	//$(window).focus(function() {
+	//$("#jqxgrid").jqxGrid('showcolumn', 'patientname');
+	//$("#jqxgrid").jqxGrid('showcolumn', 'action');
+	//$("#jqxgrid").jqxGrid('hidecolumn', 'patientnameexport');
+	//});
 	
 	$(document).click(function(event) {
 		window.lastElementClicked = event.target;
@@ -388,6 +460,26 @@ function datedropdown(name,label, data, id, prev)
 		}
 	 }
 	 
+	 	 function auditfilter(auditcheckbox) {
+	
+      
+	  var filtergroup = new $.jqx.filter();
+	  //actives;
+	  var filteron = filtergroup.createfilter('stringfilter', 'false', 'STARTS_WITH');
+	  
+	  filtergroup.addfilter(0, filteron);
+	  alert("got it");
+      //if (!auditcheckbox.checked) {
+	  //   alert("yes");
+		$('#jqxgrid').jqxGrid('addfilter', 'audit', filtergroup, true);
+	//	 }
+	 // else
+	  //{ 
+	  //  alert("no");
+      //  $('#jqxgrid').jqxGrid('removefilter', 'audit',  true);	  
+	//	}
+	 }
+	 
 	/*$("#jqxgrid").on("filter", function (event) 
 	{   
 	   
@@ -443,11 +535,13 @@ function datedropdown(name,label, data, id, prev)
 		row["mrn"] 			= "{$myrowData.mrn}";
 		row["refill"] 		= "{$myrowData.refill}";
 		row["status"] 			= "{$myrowData.status}";
+				row["pcp"] 			= "{$myrowData.provname}";
 		row["last_uts"] 	= "{$myrowData.last_uts|date_format:"%m/%d/%Y"}";
 		//row["next_pcp"] 	= "{$myrowData.next_pcp}";
-		row["pcp"] 			= "{$myrowData.provname}";
+
 		row["action"] 		= "{$myrowData.patid}";
 		row["risk"] 		=  {if ($myrowData.risk == "" || $myrowData.risk == "N/A")} "NA" {elseif ( $myrowData.risk == "0-3" )} "LOW"  {elseif ( $myrowData.risk == "4-7" )} "MODERATE"  {elseif ( $myrowData.risk == "gt7" )} "HIGH"  {elseif ( $myrowData.risk  >= 0 AND  $myrowData.risk  < 4  )} "LOW"  {elseif ( $myrowData.risk  >= 4 AND  $myrowData.risk  < 7  )} "MODERATE"   {elseif ( $myrowData.risk  >= 7   )} "HIGH"  {elseif ( $myrowData.risk    < 0  )} "NA" {else} "NA" {/if} ;
+		row["audit"]		=  "{$myrowData.audit_flag}" == "1" ? "true//"+"{$myrowData.patid}":"false//"+"{$myrowData.patid}";
 		data[i] = row;
 	    i = i + 1;
 	{/foreach}
@@ -455,34 +549,29 @@ function datedropdown(name,label, data, id, prev)
 	{literal}
 	//alert("start");
 	
-	var source =
-	{
-		localdata: data,
-		datafields:
-                [
-				    { name: 'active', type: 'string' },
-					{ name: 'location', type: 'string' },
-					{ name: 'patientname', type: 'string' },
-					{ name: 'patientnameexport', type: 'string' },
-					{ name: 'mrn', type: 'string' },
-                    { name: 'refill', type: 'date' },
-                    { name: 'status', type: 'string' },
-					{ name: 'last_uts', type: 'date' },
-					//{ name: 'next_pcp', type: 'date' },
-                    { name: 'pcp', type: 'string'},
-					{name: 'risk', type: 'string'},
-                    { name: 'action', type: 'string' }
-                ],
-		datatype: "array"
-		//sortcolumn: 'patientname',
-		//sortdirection: 'asc'
-	};
+	
 	
 	var linkrenderer = function (row, column, value) {
                 
                 //return '<div id="patid'+row+'"class="dropdown dropdown-tip"> <ul class="dropdown-menu"> <li><a href="./index.php?module=REG_Patient&action=PrescriptionRefill&record=1">Refill</a></li>  <li><a href="./index.php?module=REG_Patient&action=PatientEncounter&record=2">Encounter</a></li></ul> </div><input type="button" value="Action" data-dropdown="#patid'+row+'" class="">	';
-				return '<select id="mysort'+row+'" name="mysort'+row+'" onchange="switch (document.getElementById(\'mysort'+row+'\').selectedIndex) { case 1: loadUrl(\'./index.php?module=REG_Patient&action=PrescriptionRefill&record='+value+'\'); break; case 2:  loadUrl(\'./index.php?module=REG_Patient&action=PatientEncounter&record='+value+'\'); break; case 3: loadUrl(\'./index.php?module=REG_Patient&action=treatmentplan&record='+value+'\');break;case 4: loadUrl(\'./index.php?module=REG_Patient&action=riskevaluation&patid='+value+'\');break;}"> <option value="Action"  selected>Action</option><option value="Refill" >Refill</option><option value="Enc" >Encounter</option><option value="Tp" >Treatment Plan</option><option value="risk" >Risk Evaluation</option>	</select>';
+				return '<select id="mysort'+row+'" name="mysort'+row+'" onchange="switch (document.getElementById(\'mysort'+row+'\').selectedIndex) { case 1: loadUrl(\'./index.php?module=REG_Patient&action=PrescriptionRefill&record='+value+'\'); break; case 2:  loadUrl(\'./index.php?module=REG_Patient&action=PatientEncounter&record='+value+'\'); break; case 3: loadUrl(\'./index.php?module=REG_Patient&action=riskevaluation&patid='+value+'\');break;}"> <option value="Action"  selected>Action</option><option value="Refill" >Refill</option><option value="Enc" >Encounter</option><option value="risk" >Risk Evaluation</option>	</select>';
     }
+	
+		var auditrenderer = function (row, column, value) {
+	        // call function update audit and pass parameters
+	        var fstr = "updateaudit(this, '" + row + "','" + value + "')";
+	        if (value.split("//")[0] == "false")
+				return '<input type="checkbox"  onclick="'+ fstr + ';"> ';
+			else
+				return '<input type="checkbox"  checked onclick="'+ fstr + ';"> ';	
+	}
+	
+	var auditfilterrenderer = function(value) {
+		 return '<div style="font-size:80%;"><p>Audit Flag</p><p> Click to</p><p> Update</p></div>'; 
+		        //for later if filter is needed
+				//return '<input type="checkbox" value=Bike1" checked onclick="alert(\'me\');auditfilter(this);">';
+	}
+	
 	
 	var columnsrenderer = function (value) {
 	//return '<div style="text-align: center; margin-top: 5px;">' + value + '</div>';
@@ -571,12 +660,14 @@ function datedropdown(name,label, data, id, prev)
 			{ text: 'Patient Name', datafield: 'patientnameexport', width: 140, hidden:true},
 			{ text: 'MRN', filtertype: 'textbox', filtercondition: 'starts_with', datafield: 'mrn', renderer:columnsrenderer, width: 110},
 			{ text: 'Refill',   datafield: 'refill', filtertype: 'range', width: 140,  renderer:columnsrenderer,  sortable:true, cellsrenderer:dateoverduerenderer, cellsformat: 'd' },
+						{ text: 'PCP', datafield: 'pcp', filtertype: 'textbox', width: 120,  renderer:columnsrenderer },
 			{ text: 'Status',   hidden: true, datafield: 'status',  width: 20, filterable:false},
 			{ text: 'Last UTS', filtertype: 'range',  datafield: 'last_uts',  width: 140,   renderer:columnsrenderer, sortable:true, cellsformat: 'd' },
 			//{ text: 'Next PCP', filtertype: 'date',  datafield: 'next_pcp',  width: 140,    renderer:columnsrenderer, sortable:true, cellsformat: 'd' },
-			{ text: 'PCP', datafield: 'pcp', filtertype: 'textbox', width: 120,  renderer:columnsrenderer },
+
 			{ text: 'Risk Level', datafield: 'risk', filtertype: 'list', filteritems: ['LOW', 'MODERATE', 'HIGH', 'NA'], renderer:columnsrenderer, width: 100},
-			{ text: 'Action', datafield: 'action',  width: 100,  cellsrenderer:linkrenderer, filterable:false, renderer:columnsrenderer, sortable:false }
+			{ text: 'Action', datafield: 'action',  width: 120,  cellsrenderer:linkrenderer, filterable:false, renderer:columnsrenderer, sortable:false menu:false },
+			{ text: 'Audit', datafield: 'audit',  width: 60,  cellsrenderer:auditrenderer, filterable:false, renderer:auditfilterrenderer,sortable:false, menu:false },
 		]//,			groups: ['PCP']
 	});
 	

@@ -16,8 +16,10 @@ $session_pid = "P".$_REQUEST['record'];
 echo '<script type="text/javascript" src="custom/jquery/jquery-1.9.1.js"></script>
 	<script type="text/javascript" src="custom/jquery/accordion/js/jquery-ui-1.10.0.custom.js"></script>
 	<script type="text/javascript" src="custom/jquery/accordion/js/jquery-migrate-1.2.1.min.js"></script>
-	
-	<script type="text/javascript" src="custom/topcarejs/jquery-sticky-notes/script/jquery.stickynotes.js"></script>
+		<!--[if IE 7]>
+		<script type="text/javascript" src="custom/topcarejs/json2.js"></script>
+	<![endif]--> 
+	<script type="text/javascript" src="custom/topcarejs/jquery-sticky-notes/script/jquery.stickynotes.js?version=2"></script>
 	<link rel="stylesheet" href="custom/topcarejs/jquery-sticky-notes/css/jquery.stickynotes.css" type="text/css">
 	
 	<script type="text/javascript"> 
@@ -53,12 +55,7 @@ echo '<script type="text/javascript" src="custom/jquery/jquery-1.9.1.js"></scrip
 	};
 	
 	$(document).ready(function() {
-    //<!-- Added Sticky Notes 10/28/2014, needs javascript files, add fields to database in studio, add div id called notes, stickynotes etc to tpl -->
-		var options;
-
-	if ( document.getElementById("stickynotes_history_c").value != "" )
-     	{ try {options = JSON.parse(\'{"notes":\' + document.getElementById("stickynotes_history_c").value + \'}\'); $("#notes").stickyNotes(options);}  catch(err){$("#notes").stickyNotes();}  }
-	else {  $("#notes").stickyNotes();}
+    
  
     $(".add-tab").click(function() {
 
@@ -84,6 +81,14 @@ echo '<script type="text/javascript" src="custom/jquery/jquery-1.9.1.js"></scrip
       tabsa.tabs( "refresh" );
 	  
     });	
+	
+	//<!-- Added Sticky Notes 10/28/2014, needs javascript files, add fields to database in studio, add div id called notes, stickynotes etc to tpl -->
+		var options;
+
+	if ( document.getElementById("stickynotes_history_c").value != "" )
+     	{ try {options = JSON.parse(\'{"notes":\' + document.getElementById("stickynotes_history_c").value + \'}\'); $("#notes").stickyNotes(options);}  catch(err){$("#notes").stickyNotes();}  }
+	else {  $("#notes").stickyNotes();}
+	
 });
 
 	</script> ';
@@ -613,9 +618,9 @@ $metadataFile = $this->getMetaDataFile();
 			if($row['next_pmp_review_due_c']!=null){
 				$date1=strtotime($row['next_pmp_review_due_c']);
 				echo "\r\n document.getElementById('next_pmp_review_due_c').value='".date('m/d/Y',$date1)."';";
-				if(date('m/d/Y',$date1)<$datenow){
-				  echo "\r\n document.getElementById('next_pmp_review_due_c').style.color='red'";
-				}
+				//if(date('m/d/Y',$date1)<$datenow){
+				//  echo "\r\n document.getElementById('next_pmp_review_due_c').style.color='red'";
+				//}
 			}
 			echo "}); </script>";
 
@@ -841,7 +846,7 @@ $metadataFile = $this->getMetaDataFile();
 	<div style="margin: 0 auto;display: table-footer-group;" id="tabs-1">';
 		echo "<input type='hidden' id ='patient_name' value='".$this->bean->name."'></input>";
 		
-        echo "<div style='font-family:Verdana,Arial,sans-serif !important'><font style='font-size: 14px; font-weight: bold'>Rx Refill : ".$this->bean->name."  &nbsp;&nbsp;".$mrn."</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Pain Medication Ind.</b> &nbsp;<input disabled type='text' id = 'indication' size='30' onblur='set_session(this.id,this.value);'  value='".$value."' > </input> &nbsp;&nbsp;<br> <b>Patient Active</b> <input disabled type='checkbox' name='pt_active_dummy' id='pt_active_dummy' onclick='javascript: $(\"#pt_active_c\").prop(\"checked\", this.checked);' checked style='vertical-align:middle;'> &nbsp;&nbsp; <b>PCP Name</b> <input type='text' size='15' id='pcp_dummy' width onblur='javascript:document.getElementById(\"pcp_name_c\").value=this.value' value='".$provrow['provname']."' disabled></input></div>";
+        echo "<div style='font-family:Verdana,Arial,sans-serif !important'><font style='font-size: 14px; font-weight: bold'>Rx Refill : ".$this->bean->name."  &nbsp;&nbsp;".$mrn."</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<!--b>Pain Medication Ind.</b> &nbsp;<input disabled type='text' id = 'indication' size='30' onblur='set_session(this.id,this.value);'  value='".$value."' > </input--> &nbsp;&nbsp;<b>Patient Active</b> <input disabled type='checkbox' name='pt_active_dummy' id='pt_active_dummy' onclick='javascript: $(\"#pt_active_c\").prop(\"checked\", this.checked);' checked style='vertical-align:middle;'> &nbsp;&nbsp; <span style='white-space: nowrap;'> <b>PCP Name</b> <input type='text' size='35' id='pcp_dummy' width onblur='javascript:document.getElementById(\"pcp_name_c\").value=this.value' value='".$provrow['provname']."' disabled></input></span></div>";
 
 	
 		echo $this->dv3->display("Encounter View");
@@ -1216,9 +1221,10 @@ echo "</div>";
 	echo "<script type='text/javascript'>
     //10/28/2014 buttons changes to acommodate sticky notes and bigger font
    
-	\$(function(){\$('.moduleTitle').remove();});	\$('#SAVE_HEADER').remove();	
+	\$(function(){\$('.moduleTitle').remove();});	
+	//\$('#SAVE_HEADER').remove();	
 	    \$(function(){ \$('.action_buttons div').remove(); 
-		\$('.action_buttons').append('<input type=\"button\" id=\"mysave\" title=\"Mysave\" value=\"Save\"  onclick=\" clicksave();\">');
+	//	\$('.action_buttons').append('<input type=\"button\" id=\"mysave\" title=\"Mysave\" value=\"Save\"  onclick=\" clicksave();\">');
 		\$('.action_buttons').append('<input type=\"button\" id=\"back\" title=\"Back\" value=\"Back\" onclick=\"javascript:window.location.href=\'index.php?module=REG_Patient&action=index&parentTab=Registry\'\">');
 		\$('.action_buttons').append('<input type=\"button\" id=\"mycopy\" title=\"Copy To Clipboard\" value=\"Copy\"  onclick=\" copyToClipboard()();\">');
 	\$('.action_buttons').append($('#copy_text_div'))});

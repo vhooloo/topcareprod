@@ -1,7 +1,7 @@
 (function(jQuery) {
 	
 	jQuery.fn.stickyNotes = function(options) {
-		jQuery.fn.stickyNotes.options = jQuery.extend({}, jQuery.fn.stickyNotes.defaults, options);
+	    jQuery.fn.stickyNotes.options = jQuery.extend({}, jQuery.fn.stickyNotes.defaults, options);
 		jQuery.fn.stickyNotes.prepareContainer(this);
 		jQuery.each(jQuery.fn.stickyNotes.options.notes, function(index, note){
 			jQuery.fn.stickyNotes.renderNote(note);
@@ -42,8 +42,9 @@
 		if (jQuery.fn.stickyNotes.options.controls) {
 			jQuery("#sticky-container").html('<button id="add_note">Add Note</button>');			
 			jQuery("#add_note").click(function() {
-			    alert("hey");
+                //alert(":(");
 				jQuery.fn.stickyNotes.createNote();
+			    //alert("hey");
 				return false;
 			});	
 			//jQuery("#sticky-container").html('<button id="get_note">Get Notes</button>');			
@@ -54,6 +55,7 @@
 			//});
 		}
 		jQuery("#notes").click(function() {
+			//alert("click");
 			var note_ids = jQuery.fn.stickyNotes.currentlyEditedNotes();
 			for (var i = note_ids.length - 1; i >= 0; i--){
 				var note_id = note_ids[i]
@@ -66,6 +68,7 @@
 	};
 	
 	jQuery.fn.stickyNotes.createNote = function() {
+	    //alert("in create");
 		var pos_x = 0;
 		var pos_y = 0;		
 		var note_id = jQuery.fn.stickyNotes.notes.length + 1;
@@ -82,22 +85,26 @@
 							.attr("id", "note-" + note_id)
 							.append(_div_background)
 							.append(_div_note)
-							.append(_div_delete);	
-		_div_wrap.addClass('jSticky-medium');		
+							.append(_div_delete);
+					
+		_div_wrap.addClass('jSticky-medium');	
+
 		if (jQuery.fn.stickyNotes.options.resizable) {
 			_div_wrap.resizable({stop: function(event, ui) { jQuery.fn.stickyNotes.resizedNote(note_id)}});
 		}		
-		//_div_wrap.draggable({containment: '#sticky-container', scroll: false, stop: function(event, ui){jQuery.fn.stickyNotes.movedNote(note_id)}}); 
+
+		_div_wrap.draggable({containment: '#sticky-container', scroll: false, stop: function(event, ui){jQuery.fn.stickyNotes.movedNote(note_id)}}); 
 		_div_wrap.draggable({containment: '#notes', scroll: false, stop: function(event, ui){jQuery.fn.stickyNotes.movedNote(note_id)}}); 
 
 		$('#sticky-container').append(_div_wrap);
-		
+
 		jQuery.fn.stickyNotes.setCurrentlyEditedNote(note_id);
 		jQuery("#note-" + note_id).click(function() {
+		    //alert("Click");
 			return false;
 		})
 		jQuery("#note-" + note_id).find("textarea").focus();
-		//jQuery("#p-note-" + note_id).focusout(function() { alert ("blurred");});
+		jQuery("#note-" + note_id).find("textarea").blur(function() { jQuery.fn.stickyNotes.stopEditing(note_id); });
 		//alert(jQuery("#note-" + note_id).position().left + "or" + jQuery("#note-" + note_id ).offset().left);
 		var note = {"id":note_id,
 		      "text":"",
@@ -116,7 +123,8 @@
         });
 		if (jQuery.fn.stickyNotes.options.createCallback) {
 			jQuery.fn.stickyNotes.options.createCallback(note);
-		}		
+		}	
+        //alert("done");		
 		
 	}
 	
@@ -169,6 +177,7 @@
             'height': jQuery("#note-" + note_id).height() - 15
         });
 		jQuery("#note-" + note_id).find("textarea").focus();
+		jQuery("#note-" + note_id).find("textarea").blur(function() { jQuery.fn.stickyNotes.stopEditing(note_id);});
 		jQuery.fn.stickyNotes.setCurrentlyEditedNote(note_id);
 	}
 	
@@ -193,9 +202,12 @@
 	}
 	
 	jQuery.fn.stickyNotes.renderNote = function(note) {
+
 		var _p_note_text = 	$(document.createElement('p')).attr("id", "p-note-" + note.id)
-							.html( note.text);		
+							.html( note.text);	
+    						
 		var _div_note 	= 	jQuery(document.createElement('div')).addClass('jStickyNote');
+		//alert("created" + note.text);	
         var _div_background = jQuery.fn.stickyNotes.createNoteBackground();
 		_div_note.append(_p_note_text);
 		var _div_delete = 	$(document.createElement('div'))
@@ -208,6 +220,7 @@
 							.append(_div_note)
 							.append(_div_delete);	
 		_div_wrap.addClass('jSticky-medium');
+
 		if (jQuery.fn.stickyNotes.options.resizable) {
 			_div_wrap.resizable({stop: function(event, ui) { jQuery.fn.stickyNotes.resizedNote(note.id)}});
 		}
@@ -221,6 +234,7 @@
 		$(_p_note_text).dblclick(function() {
 			jQuery.fn.stickyNotes.editNote(this);
 		});		
+
 	}
 	
 	jQuery.fn.stickyNotes.movedNote = function(note_id) {

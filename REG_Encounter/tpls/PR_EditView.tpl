@@ -685,7 +685,7 @@ window.onload = function()
    <table width="100%" >
     <tr>
 	 <td width= "50%"> Notes<br>
-      <textarea tabindex="12" name="history_c" id="history_c" rows="12" style="width:95%"  maxlength="20000" >{if  ($notes_flag == "true")} {$datarow.history_c} {/if}</textarea> </td>
+      <textarea tabindex="12" name="history_c" id="history_c" rows="11" style="width:95%"  maxlength="20000" >{if  ($notes_flag == "true")} {$datarow.history_c} {/if}</textarea> </td>
 	 <td id = "mainsticky-container" width = "50%">
 	    <b> {if  ($datarow.pills_bottle_disp_c ne 28)} <img src='custom/themes/default/images/aberrant_behavior.gif'> <span style="white-space: nowrap;"> ALERT DAYS DISPENSED NOT 28 {/if} </span></b> 
 	    <div id = "sticky-container" />
