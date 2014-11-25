@@ -714,7 +714,7 @@ function datedropdown(name,label, data, id, prev)
 	if ( document.getElementById("statuscheck").checked ) {
 		statusfilter(true);
 	} else {statusfilter(false);}
-	//$('#jqxgrid').jqxGrid('applyfilters');
+	$('#jqxgrid').jqxGrid('applyfilters');
 	
 	
 
