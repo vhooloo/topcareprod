@@ -42,18 +42,18 @@ if (window.XMLHttpRequest)
 
 xmlhttp.onreadystatechange=function()
   {
-  
+	if (xmlhttp.readyState >=2) document.location.href = location; //make this work with ie and chrome
   }
 //xmlhttp.open("GET","index.php?module=REG_Patient&action=session_setting_variable&id=jqxgridstate&value=orepiya123",true);
 xmlhttp.open("POST","index.php?entryPoint=session_setting_variable",true);
 xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 xmlhttp.setRequestHeader("Content-length", params.length);
-xmlhttp.setRequestHeader("Connection", "close");
+//xmlhttp.setRequestHeader("Connection", "close");
 xmlhttp.send(params);
 
 //$.get("index.php?module=REG_Patient&action=session_setting_variable&id=jqxgridstate&value=orepiya123ajax");
 
-  this.document.location.href = location;
+  //this.document.location.href = location;
     //alert("loading");
   	//$("#jqxgrid").jqxGrid('loadstate', state);
 	//alert("loaded");
@@ -655,14 +655,14 @@ function datedropdown(name,label, data, id, prev)
 		
 		
 		columns: [
-		    { text: 'Active', hidden: true,  datafield: 'active', width: 20,  filterable:false},
+		    { text: 'Active', hidden: true,  datafield: 'active', width: 20,  filterable:true,filtertype: 'textbox' },
 			{ text: 'Location', filtertype: 'textbox', filtercondition: 'starts_with', datafield: 'location', width: 80, renderer:columnsrenderer, sortable: true },
 			{ text: 'Patient Name', filtertype: 'textbox', filtercondition: 'starts_with', datafield: 'patientname', width: 140, renderer:columnsrenderer, sortable: true, cellsrenderer:patientrenderer },
 			{ text: 'Patient Name', datafield: 'patientnameexport', width: 140, hidden:true},
 			{ text: 'MRN', filtertype: 'textbox', filtercondition: 'starts_with', datafield: 'mrn', renderer:columnsrenderer, width: 110},
 			{ text: 'Refill',   datafield: 'refill', filtertype: 'range', width: 140,  renderer:columnsrenderer,  sortable:true, cellsrenderer:dateoverduerenderer, cellsformat: 'd' },
 						{ text: 'PCP', datafield: 'pcp', filtertype: 'textbox', width: 120,  renderer:columnsrenderer },
-			{ text: 'Status',   hidden: true, datafield: 'status',  width: 20, filterable:false},
+			{ text: 'Status',   hidden: true, datafield: 'status',  width: 20, filterable:true,filtertype: 'textbox' },
 			{ text: 'Last UTS', filtertype: 'range',  datafield: 'last_uts',  width: 140,   renderer:columnsrenderer, sortable:true, cellsformat: 'd' },
 			//{ text: 'Next PCP', filtertype: 'date',  datafield: 'next_pcp',  width: 140,    renderer:columnsrenderer, sortable:true, cellsformat: 'd' },
 
