@@ -193,26 +193,31 @@ function datedropdown(name,label, data, id, prev)
 	  var refilldaysselect = parseInt(days);
 	  var today = new Date();
 	  var highdate = new Date();
+	  var lastutsdate = new Date();
 	  highdate.setDate(today.getDate() + refilldaysselect);
+	  lastutsdate.setDate(today.getDate() - refilldaysselect);
       var fmthighdate = (highdate.getMonth()+1) + '/'+ highdate.getDate() + '/'+  highdate.getFullYear(); 
 	  var fmttoday = (today.getMonth()+1) + '/'+ today.getDate() + '/'+  today.getFullYear(); 
+	  var fmtlastutsdate = (lastutsdate.getMonth()+1) + '/'+ lastutsdate.getDate() + '/'+  lastutsdate.getFullYear(); 
 	  
 	  var filtergroup = new $.jqx.filter();
-	  var filterlo = filtergroup.createfilter('datefilter', fmttoday, 'GREATER_THAN_OR_EQUAL');
+	  //var filterlo = filtergroup.createfilter('datefilter', fmttoday, 'GREATER_THAN_OR_EQUAL');
+	  var filtertoday = filtergroup.createfilter('datefilter', fmttoday, 'LESS_THAN_OR_EQUAL');
 	  var filterhi = filtergroup.createfilter('datefilter', fmthighdate , 'LESS_THAN_OR_EQUAL');
 	  //var filterover = filtergroup.createfilter('datefilter', '11/7/2013', 'LESS_THAN_OR_EQUAL');
 	  var filterbot  = filtergroup.createfilter('datefilter', '01/01/2013', 'GREATER_THAN_OR_EQUAL');
 	  //filtergroup.addfilter(0, filterlo);
-
-	  if (this.data == "refill")
-	  	filtergroup.addfilter(0, filterbot);
-	  else filtergroup.addfilter(0, filterlo);
+	  var filteruts = filtergroup.createfilter('datefilter', fmtlastutsdate , 'GREATER_THAN_OR_EQUAL');
+       
+	  //alert(this.data); 
+	  if (this.data == "refill") {	filtergroup.addfilter(0, filterbot);filtergroup.addfilter(0, filterhi);}
+	  else { filtergroup.addfilter(0, filteruts); filtergroup.addfilter(0, filtertoday); }
 	  
-		filtergroup.addfilter(0, filterhi);
+		
 		$('#jqxgrid').jqxGrid('addfilter', this.data, filtergroup, true);
 		this.selectval = document.getElementById(this.data).value;
 		clickname = this.data;
-		$('#jqxgrid').jqxGrid('applyfilters'); //filter bug
+		$('#jqxgrid').jqxGrid('applyfilters');
 	}
 	
 	function sessionparam() {
@@ -538,10 +543,8 @@ function datedropdown(name,label, data, id, prev)
 		row["status"] 			= "{$myrowData.status}";
 				row["pcp"] 			= "{$myrowData.provname}";
 		row["last_uts"] 	= "{$myrowData.last_uts|date_format:"%m/%d/%Y"}";
-		//row["next_pcp"] 	= "{$myrowData.next_pcp}";
-
 		row["action"] 		= "{$myrowData.patid}";
-		row["risk"] 		=  {if ($myrowData.risk == "" || $myrowData.risk == "N/A")} "NA" {elseif ( $myrowData.risk == "0-3" )} "LOW"  {elseif ( $myrowData.risk == "4-7" )} "MODERATE"  {elseif ( $myrowData.risk == "gt7" )} "HIGH"  {elseif ( $myrowData.risk  >= 0 AND  $myrowData.risk  < 4  )} "LOW"  {elseif ( $myrowData.risk  >= 4 AND  $myrowData.risk  < 7  )} "MODERATE"   {elseif ( $myrowData.risk  >= 7   )} "HIGH"  {elseif ( $myrowData.risk    < 0  )} "NA" {else} "NA" {/if} ;
+		row["risk"] 		=  {if ($myrowData.risk == "")} "A" {elseif ( $myrowData.risk == "0-3" )} "B"  {elseif ( $myrowData.risk == "4-7" )} "C"  {elseif ( $myrowData.risk == "gt7" )} "D"  {elseif ( $myrowData.risk  >= 0 AND  $myrowData.risk  < 4  )} "B"  {elseif ( $myrowData.risk  >= 4 AND  $myrowData.risk  < 7  )} "C"   {elseif ( $myrowData.risk  >= 7   )} "D"  {elseif ( $myrowData.risk    < 0  )} "A" {else} "A" {/if} ;
 		row["audit"]		=  "{$myrowData.audit_flag}" == "1" ? "true//"+"{$myrowData.patid}":"false//"+"{$myrowData.patid}";
 		data[i] = row;
 	    i = i + 1;
@@ -573,7 +576,14 @@ function datedropdown(name,label, data, id, prev)
 				//return '<input type="checkbox" value=Bike1" checked onclick="alert(\'me\');auditfilter(this);">';
 	}
 	
-	
+		var riskrenderer = function(row, column,value) {
+		 if (value == "A")	return '<p>NA</p>';
+		 if (value == "B")	return '<p>LOW</p>';
+		 if (value == "C")	return '<p>MODERATE</p>';
+		 if (value == "D")	return '<p>HIGH</p>';
+		 return '<p>NA</p>';
+			
+	}
 	var columnsrenderer = function (value) {
 	//return '<div style="text-align: center; margin-top: 5px;">' + value + '</div>';
 
@@ -666,7 +676,7 @@ function datedropdown(name,label, data, id, prev)
 			{ text: 'Last UTS', filtertype: 'range',  datafield: 'last_uts',  width: 140,   renderer:columnsrenderer, sortable:true, cellsformat: 'd' },
 			//{ text: 'Next PCP', filtertype: 'date',  datafield: 'next_pcp',  width: 140,    renderer:columnsrenderer, sortable:true, cellsformat: 'd' },
 
-			{ text: 'Risk Level', datafield: 'risk', filtertype: 'list', filteritems: ['LOW', 'MODERATE', 'HIGH', 'NA'], renderer:columnsrenderer, width: 100},
+			{ text: 'Risk Level', datafield: 'risk', filtertype: 'list', filteritems: ['LOW', 'MODERATE', 'HIGH', 'NA'], cellsrenderer:riskrenderer,renderer:columnsrenderer, width: 100},
 			{ text: 'Action', datafield: 'action',  width: 120,  cellsrenderer:linkrenderer, filterable:false, renderer:columnsrenderer, sortable:false, menu:false },
 			{ text: 'Audit', datafield: 'audit',  width: 60,  cellsrenderer:auditrenderer, filterable:false, renderer:auditfilterrenderer,sortable:false, menu:false },
 		]//,			groups: ['PCP']

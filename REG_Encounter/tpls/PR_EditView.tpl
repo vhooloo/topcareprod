@@ -451,9 +451,16 @@ var daysdispensed="";
 	appendTxt =appendTxt + "Risk Level: " +risklevel.toUpperCase()+"\r\n";
 
 	
-	var aberrantBehavoir="";
+	var aberrantBehavior="";
+	if ( document.getElementById('abck1').checked ) { aberrantBehavior +=document.getElementById('abtxt1').value; aberrantBehavior += ", ";}
+		if ( document.getElementById('abck2').checked ) { aberrantBehavior +=document.getElementById('abtxt2').value;  aberrantBehavior += ", ";}
+		if ( document.getElementById('abck3').checked ) { aberrantBehavior +=document.getElementById('abtxt3').value;  aberrantBehavior += ", ";}
+		if ( document.getElementById('abck4').checked ) { aberrantBehavior +=document.getElementById('abtxt4').value;  aberrantBehavior += ", ";}
+		if ( document.getElementById('abck5').checked ) { aberrantBehavior +=document.getElementById('abtxt5').value;  aberrantBehavior += ", ";}
+		if ( document.getElementById('abck6').checked ) { aberrantBehavior +=document.getElementById('abtxt6').value;  aberrantBehavior += ", ";}
+		if ( document.getElementById('abck7').checked ) { aberrantBehavior +=document.getElementById('abtxt7').value;  }
 	
-	if( document.getElementById('RefusePillCount').selected)
+	/*if( document.getElementById('RefusePillCount').selected)
 	{
 		//alert (document.getElementById('RefusePillCount').selected);
 	 aberrantBehavoir=aberrantBehavoir +"-Refuse Pill Count"+"\r\n";	
@@ -481,10 +488,10 @@ var daysdispensed="";
 	if( document.getElementById('ConcerningBehaviorOther').selected)
 	{
 	 aberrantBehavoir=aberrantBehavoir +"-Other - family reports, intoxication, disruptive behavior"+"\r\n";	
-	} 
+	} */
 	
-if (aberrantBehavoir != "" ) {
-	appendTxt = appendTxt +"\r\n"+ "Aberrant behavior noted:"+"\r\n" + aberrantBehavoir;
+if (aberrantBehavior != "" ) {
+	appendTxt = appendTxt +"\r\n"+ "Aberrant behavior noted:"+"\r\n" + aberrantBehavior;
 }
 		
 
