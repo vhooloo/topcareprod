@@ -6,7 +6,9 @@
 <!-- --GRID -->
 <link rel="stylesheet" href="custom/topcarejs/jqwidgets/styles/jqx.base.css" type="text/css" />
 <link rel="stylesheet" href="custom/topcarejs/jqwidgets/styles/jqx.office.css" type="text/css" />
-
+<meta http-equiv="X-UA-Compatible" content="IE=8" /> 
+<!--meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE" /-->
+<!--meta http-equiv="X-UA-Compatible" content="IE=edge" /--> 
 <!--script type="text/javascript" src="custom/topcarejs/jquery.dropdown.js"></script-->
 
 <script type="text/javascript">
@@ -42,10 +44,10 @@ if (window.XMLHttpRequest)
 
 xmlhttp.onreadystatechange=function()
   {
-	if (xmlhttp.readyState >=2) document.location.href = location; //make this work with ie and chrome
+	//if (xmlhttp.readyState >=5) document.location.href = location; //make this work with ie and chrome
   }
 //xmlhttp.open("GET","index.php?module=REG_Patient&action=session_setting_variable&id=jqxgridstate&value=orepiya123",true);
-xmlhttp.open("POST","index.php?entryPoint=session_setting_variable",true);
+xmlhttp.open("POST","index.php?entryPoint=session_setting_variable",false);
 xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 xmlhttp.setRequestHeader("Content-length", params.length);
 //xmlhttp.setRequestHeader("Connection", "close");
@@ -53,7 +55,7 @@ xmlhttp.send(params);
 
 //$.get("index.php?module=REG_Patient&action=session_setting_variable&id=jqxgridstate&value=orepiya123ajax");
 
-  //this.document.location.href = location;
+  this.document.location.href = location;
     //alert("loading");
   	//$("#jqxgrid").jqxGrid('loadstate', state);
 	//alert("loaded");
@@ -242,11 +244,11 @@ function datedropdown(name,label, data, id, prev)
 //var_dump($_SESSION);
 {/php}
 
-   <!--script src="http://code.jquery.com/jquery-1.10.2.js"></script> 
-  <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script-->
+   <script src="custom/jquery/jquery-1.10.2.min.js"></script> 
+  <!--script src="custom/jquery/ui/1.10.3/jquery-ui.js"></script-->
  
-    <script src="custom/jquery/jquery-2.1.0.min.js"></script> 
-  <script src="custom/jquery/jquery-ui.min.js"></script>
+    <!--script src="custom/jquery/jquery-2.1.0.min.js"></script> 
+  <script src="custom/jquery/jquery-ui.min.js"></script-->
 
  
   
@@ -272,6 +274,7 @@ function datedropdown(name,label, data, id, prev)
 	<script type="text/javascript" src="custom/topcarejs/jqwidgets/globalization/globalize.js?version=2"></script>
 	<script type="text/javascript" src="custom/topcarejs/jqwidgets/jqxdata.export.js?version=2"></script> 
 	<script type="text/javascript" src="custom/topcarejs/jqwidgets/jqxgrid.export.js?version=2"></script> 
+	<script type="text/javascript" src="custom/topcarejs/json2.js"></script>
 	
 	<!--[if IE 7]>
 		<script type="text/javascript" src="custom/topcarejs/json2.js"></script>
@@ -323,7 +326,8 @@ function datedropdown(name,label, data, id, prev)
 <input id="inactivecheck" type="checkbox"  onclick="inactivefilter(this.checked);" {if ($smarty.session.inactive == "true")}checked{/if} > Include Inactive patients </input>
 <input id="statuscheck" type="checkbox" onclick="statusfilter(this.checked);"  {if ($smarty.session.status == "true")}checked{/if} > Patients to be followed-up </input>
 <input  type="button" value="Export to Excel" id='excelExport' />
-<input name="testjson" id = "testjson" type = "hidden"  value="{$smarty.session.jqxgridstate nofilter}" maxlength = "10000"/>
+<br/>
+<input name="testjson" id = "testjson"  type="hidden" size = "200" value="{$smarty.session.jqxgridstate nofilter}" maxlength = "10000"/>
 
         <div id="jqxgrid"  ></div>
         
@@ -339,13 +343,9 @@ function datedropdown(name,label, data, id, prev)
 
 
 	<script type="text/javascript">
-	var refilldaysselect;
-    var data = new Array();
-	
-	
-	
 	{literal}
-	
+	var refilldaysselect;
+   var data = new Array();
 	var source =
 	{
 		localdata: data,
@@ -369,6 +369,11 @@ function datedropdown(name,label, data, id, prev)
 		//sortcolumn: 'patientname',
 		//sortdirection: 'asc'
 	};
+	
+	
+	
+	
+	
 	
 	
 	$("#excelExport").click(function() {
@@ -521,7 +526,11 @@ function datedropdown(name,label, data, id, prev)
 				
 	//var data = new Array();
 	var i = 0;
+ 
+	
 
+	
+	
 	
 	//alert("start");
 	 
@@ -662,6 +671,7 @@ function datedropdown(name,label, data, id, prev)
 		sortable: true,
 		filterable: true,
 		autoshowcolumnsmenubutton: false,
+		selectionmode: 'none',
 		
 		
 		columns: [
@@ -678,7 +688,7 @@ function datedropdown(name,label, data, id, prev)
 
 			{ text: 'Risk Level', datafield: 'risk', filtertype: 'list', filteritems: ['LOW', 'MODERATE', 'HIGH', 'NA'], cellsrenderer:riskrenderer,renderer:columnsrenderer, width: 100},
 			{ text: 'Action', datafield: 'action',  width: 120,  cellsrenderer:linkrenderer, filterable:false, renderer:columnsrenderer, sortable:false, menu:false },
-			{ text: 'Audit', datafield: 'audit',  width: 60,  cellsrenderer:auditrenderer, filterable:false, renderer:auditfilterrenderer,sortable:false, menu:false },
+			{ text: 'Audit', datafield: 'audit',  width: 60,  cellsrenderer:auditrenderer, filterable:false, renderer:auditfilterrenderer,sortable:false, menu:false }
 		]//,			groups: ['PCP']
 	});
 	
@@ -699,7 +709,7 @@ function datedropdown(name,label, data, id, prev)
 	   $("#jqxgrid").jqxGrid('loadstate',JSON.parse(myprevstate));
 	    
 		//alert("what happened?");
-		var filtersinfo = $('#jqxgrid').jqxGrid('getfilterinformation');
+		//var filtersinfo = $('#jqxgrid').jqxGrid('getfilterinformation');
 		//var setinactive = true;  //if previous state, need to check if previous state set inactive
 		//for (var j=0;j<filtersinfo.length;j++)
 		//{ 
@@ -708,7 +718,7 @@ function datedropdown(name,label, data, id, prev)
 		//	if (filtersinfo[j].filtercolumn == 'status') {document.getElementById("statuscheck").checked = true; }
 		//}
 		//now clear the session
-		document.getElementById("testjson").value = "";
+		//document.getElementById("testjson").value = "";
 		clearsession();
 		
 	 }	
