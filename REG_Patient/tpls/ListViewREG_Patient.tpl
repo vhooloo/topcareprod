@@ -272,6 +272,7 @@ function datedropdown(name,label, data, id, prev)
     <script type="text/javascript" src="custom/topcarejs/jqwidgets/jqxdatetimeinput.js?version=2"></script>
 	<script type="text/javascript" src="custom/topcarejs/jqwidgets/jqxgrid.grouping.js?version=2"></script>
 	<script type="text/javascript" src="custom/topcarejs/jqwidgets/globalization/globalize.js?version=2"></script>
+	<script type="text/javascript" src="custom/topcarejs/jqwidgets/jqxgrid.edit.js"></script>
 	<script type="text/javascript" src="custom/topcarejs/jqwidgets/jqxdata.export.js?version=2"></script> 
 	<script type="text/javascript" src="custom/topcarejs/jqwidgets/jqxgrid.export.js?version=2"></script> 
 	<script type="text/javascript" src="custom/topcarejs/json2.js"></script>
@@ -326,6 +327,7 @@ function datedropdown(name,label, data, id, prev)
 <input id="inactivecheck" type="checkbox"  onclick="inactivefilter(this.checked);" {if ($smarty.session.inactive == "true")}checked{/if} > Include Inactive patients </input>
 <input id="statuscheck" type="checkbox" onclick="statusfilter(this.checked);"  {if ($smarty.session.status == "true")}checked{/if} > Patients to be followed-up </input>
 <input  type="button" value="Export to Excel" id='excelExport' />
+<input  type="button" value="PMP File" id='pmpexport' />
 <br/>
 <input name="testjson" id = "testjson"  type="hidden" size = "200" value="{$smarty.session.jqxgridstate nofilter}" maxlength = "10000"/>
 
@@ -355,10 +357,15 @@ function datedropdown(name,label, data, id, prev)
 					{ name: 'location', type: 'string' },
 					{ name: 'patientname', type: 'string' },
 					{ name: 'patientnameexport', type: 'string' },
+					{ name: 'firstname', type: 'string' },
+					{ name: 'lastname', type: 'string' },
 					{ name: 'mrn', type: 'string' },
                     { name: 'refill', type: 'date' },
                     { name: 'status', type: 'string' },
 					{ name: 'last_uts', type: 'date' },
+					{ name: 'pmp_date', type: 'date' },
+					{ name: 'dob', type:'date' },
+					{ name: 'zip', type:'string' },
 					//{ name: 'next_pcp', type: 'date' },
                     { name: 'pcp', type: 'string'},
 					{name: 'risk', type: 'string'},
@@ -373,7 +380,47 @@ function datedropdown(name,label, data, id, prev)
 	
 	
 	
+		$("#pmpexport").click(function() {
+
+    var mydataload = $("#jqxgrid").jqxGrid('exportdata', 'json',null, true, null, true);
+	var myjson = eval("(" + mydataload + ")");
+	//console.log(myjson);
+	var csvRows = [];
+		for(var i = 0; i < myjson.length; i++) {
+    var obj = myjson[i];
+
+		//var id = obj["MRN"];
+		//var name = obj["Location1"];
+		csvRows.push(obj["firstname"] + "," + obj["lastname"] + "," + obj["ZIP"] + "," + obj["DOB"] );
+		//console.log(id);
+		//console.log(name);
+	}
+	var csvString = csvRows.join("\r\n");
+		var IEwindow = window.open();
+
+	IEwindow.document.write(csvString);
+	IEwindow.document.close();
+	if (IEwindow.document.execCommand('SaveAs', null,  "pmpexport.csv"))
+	{
+	IEwindow.close();}
+	else
+	{
+		
+		var uri = 'data:application/csv;charset=utf-8,' + escape(csvString);
+        var link = IEwindow.document.createElement("a");
+        link.href = uri;
+        link.style = "visibility:hidden";
+        link.download = "pmpexport.csv";
+        IEwindow.document.body.appendChild(link);
+        link.click();
+        IEwindow.document.body.removeChild(link);
+		setTimeout(function(){ IEwindow.close(); }, 50);
+	}
 	
+	//$("#jqxgrid").jqxGrid('showcolumn', 'action');
+	//$("#jqxgrid").jqxGrid('showcolumn', 'patientname');
+	//$("#jqxgrid").jqxGrid('hidecolumn', 'patientnameexport');
+	});
 	
 	
 	$("#excelExport").click(function() {
@@ -547,11 +594,16 @@ function datedropdown(name,label, data, id, prev)
 		row["location"] 	= "{$myrowData.location}";
 		row["patientname"] 	= "{$myrowData.lname}, {$myrowData.fname}//{$myrowData.patid}" ;
 		row["patientnameexport"] 	= "{$myrowData.lname}, {$myrowData.fname}" ;
+				row["firstname"] 	= "{$myrowData.fname}" ;
+		row["lastname"] 	= "{$myrowData.lname}" ;
 		row["mrn"] 			= "{$myrowData.mrn}";
 		row["refill"] 		= "{$myrowData.refill}";
 		row["status"] 			= "{$myrowData.status}";
 				row["pcp"] 			= "{$myrowData.provname}";
 		row["last_uts"] 	= "{$myrowData.last_uts|date_format:"%m/%d/%Y"}";
+		row["pmp_date"] 	= "{$myrowData.pmp_date}"; 
+				row["dob"] 			= "{$myrowData.dob}";
+		row["zip"]          = "{$myrowData.zip}";
 		row["action"] 		= "{$myrowData.patid}";
 		row["risk"] 		=  {if ($myrowData.risk == "")} "A" {elseif ( $myrowData.risk == "0-3" )} "B"  {elseif ( $myrowData.risk == "4-7" )} "C"  {elseif ( $myrowData.risk == "gt7" )} "D"  {elseif ( $myrowData.risk  >= 0 AND  $myrowData.risk  < 4  )} "B"  {elseif ( $myrowData.risk  >= 4 AND  $myrowData.risk  < 7  )} "C"   {elseif ( $myrowData.risk  >= 7   )} "D"  {elseif ( $myrowData.risk    < 0  )} "A" {else} "A" {/if} ;
 		row["audit"]		=  "{$myrowData.audit_flag}" == "1" ? "true//"+"{$myrowData.patid}":"false//"+"{$myrowData.patid}";
@@ -671,24 +723,57 @@ function datedropdown(name,label, data, id, prev)
 		sortable: true,
 		filterable: true,
 		autoshowcolumnsmenubutton: false,
-		selectionmode: 'none',
+				editable: true,
+		selectionmode: 'singlecell',
+		editmode: 'click',
 		
 		
 		columns: [
-		    { text: 'Active', hidden: true,  datafield: 'active', width: 20,  filterable:true,filtertype: 'textbox' },
-			{ text: 'Location', filtertype: 'textbox', filtercondition: 'starts_with', datafield: 'location', width: 80, renderer:columnsrenderer, sortable: true },
-			{ text: 'Patient Name', filtertype: 'textbox', filtercondition: 'starts_with', datafield: 'patientname', width: 140, renderer:columnsrenderer, sortable: true, cellsrenderer:patientrenderer },
-			{ text: 'Patient Name', datafield: 'patientnameexport', width: 140, hidden:true},
-			{ text: 'MRN', filtertype: 'textbox', filtercondition: 'starts_with', datafield: 'mrn', renderer:columnsrenderer, width: 110},
-			{ text: 'Refill',   datafield: 'refill', filtertype: 'range', width: 140,  renderer:columnsrenderer,  sortable:true, cellsrenderer:dateoverduerenderer, cellsformat: 'd' },
-						{ text: 'PCP', datafield: 'pcp', filtertype: 'textbox', width: 120,  renderer:columnsrenderer },
-			{ text: 'Status',   hidden: true, datafield: 'status',  width: 20, filterable:true,filtertype: 'textbox' },
-			{ text: 'Last UTS', filtertype: 'range',  datafield: 'last_uts',  width: 140,   renderer:columnsrenderer, sortable:true, cellsformat: 'd' },
+		    { text: 'Active', hidden: true,  datafield: 'active', width: 20,  filterable:true,filtertype: 'textbox' , editable:false },
+			{ text: 'Location', filtertype: 'textbox', filtercondition: 'starts_with', datafield: 'location', width: 80, renderer:columnsrenderer, sortable: true, editable:false  },
+			{ text: 'Patient Name', filtertype: 'textbox', filtercondition: 'starts_with', datafield: 'patientname', width: 140, renderer:columnsrenderer, sortable: true, cellsrenderer:patientrenderer , editable:false },
+			{ text: 'Patient Name', datafield: 'patientnameexport', width: 140, hidden:true, editable:false },
+			{ text: 'firstname', datafield: 'firstname', width: 30, hidden:true,editable:false},
+			{ text: 'lastname', datafield: 'lastname', width: 30, hidden:true,editable:false},
+			{ text: 'MRN', filtertype: 'textbox', filtercondition: 'starts_with', datafield: 'mrn', renderer:columnsrenderer, width: 110, editable:false },
+			{ text: 'Refill',   datafield: 'refill', filtertype: 'range', width: 140,  renderer:columnsrenderer,  sortable:true, cellsrenderer:dateoverduerenderer, cellsformat: 'd', editable:false },
+						{ text: 'PCP', datafield: 'pcp', filtertype: 'textbox', width: 120,  renderer:columnsrenderer, editable:false  },
+			{ text: 'Status',   hidden: true, datafield: 'status',  width: 20, filterable:true,filtertype: 'textbox' , editable:false },
+			{ text: 'Last UTS', filtertype: 'range',  datafield: 'last_uts',  width: 140,   renderer:columnsrenderer, sortable:true, cellsformat: 'd', editable:false  },
+			{ text: '<p>PMP Date</p> <p>(editable)</p>', filtertype: 'range',  datafield: 'pmp_date',  width: 140,   renderer:columnsrenderer, sortable:true, cellsformat: 'd', editable:true , 
+				validation: function (cell, value) 
+				{
+					var myid = $('#jqxgrid').jqxGrid('getcelltext', cell.row, 'patientname'); console.log("myid is " + myid);console.log("date is"+value);
+					var date_string;
+					var res = myid.split("//");
+					try{date_string = (value.getMonth() + 1) + '/' + value.getDate() + '/' +  value.getFullYear();}catch (err){console.log (err.message);return false;}
+					$.ajax({
+									url: 'index.php?entryPoint=updatepatientaudit&update_action=pmp&pmp_date='+date_string+'&pid='+res[1],
+									//data: {my_json_data: "{ text: 'Provider', editable:false, filtertype: 'textbox', hidden: false, filtercondition: 'starts_with', datafield: 'provider', width: 140,  sortable: true, cellsrenderer:cellsrenderer }"},
+									type: 'POST',
+									async: true,
+									dataType: 'text',
+									cache:false,
+									success:function(text){
+										console.log('AJAX SUCCESS' + text);
+									}, 
+									complete : function(text){
+									    
+										console.log('AJAX COMPLETE');
+									
+									}
+							});
+							return true;
+			
+				}
+			},
+			{ text: 'DOB', filtertype: 'date',  datafield: 'dob',  width: 20, cellsformat: 'd',hidden:true,editable:false },
+			{ text: 'ZIP', datafield: 'zip', filtertype: 'textbox', width: 6,  hidden:true, editable:false},
 			//{ text: 'Next PCP', filtertype: 'date',  datafield: 'next_pcp',  width: 140,    renderer:columnsrenderer, sortable:true, cellsformat: 'd' },
 
-			{ text: 'Risk Level', datafield: 'risk', filtertype: 'list', filteritems: ['LOW', 'MODERATE', 'HIGH', 'NA'], cellsrenderer:riskrenderer,renderer:columnsrenderer, width: 100},
-			{ text: 'Action', datafield: 'action',  width: 120,  cellsrenderer:linkrenderer, filterable:false, renderer:columnsrenderer, sortable:false, menu:false },
-			{ text: 'Audit', datafield: 'audit',  width: 60,  cellsrenderer:auditrenderer, filterable:false, renderer:auditfilterrenderer,sortable:false, menu:false }
+			{ text: 'Risk Level', datafield: 'risk', filtertype: 'list', filteritems: ['LOW', 'MODERATE', 'HIGH', 'NA'], cellsrenderer:riskrenderer,renderer:columnsrenderer, width: 100, editable:false },
+			{ text: 'Action', datafield: 'action',  width: 120,  cellsrenderer:linkrenderer, filterable:false, renderer:columnsrenderer, sortable:false, menu:false , editable:false },
+			{ text: 'Audit', datafield: 'audit',  width: 60,  cellsrenderer:auditrenderer, filterable:false, renderer:auditfilterrenderer,sortable:false, menu:false , editable:false }
 		]//,			groups: ['PCP']
 	});
 	

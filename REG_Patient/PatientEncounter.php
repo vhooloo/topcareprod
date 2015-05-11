@@ -744,16 +744,18 @@ $metadataFile = $this->getMetaDataFile();
 			echo "<script> set_session('indication','".$value."');</script>";		
 		}
 		
-		$query2b = "SELECT mrn_c FROM reg_patient_cstm where id_c = '".$this->bean->id."'" ;
+		$query2b = "SELECT mrn_c, pmp_date_c  FROM reg_patient_cstm where id_c = '".$this->bean->id."'" ;
 		$resultb = $this->bean->db->query($query2b, true);		
 		if(($rowb = $this->bean->db->fetchByAssoc($resultb) ) != null )
 		{
 			$mrn = $rowb['mrn_c'];
+			$pmpdate = $rowb['pmp_date_c'];
 					
 		} else {
 		    $mrn = "";
 		}
 		echo "<script> set_session('mrn','".$mrn."');</script>";
+		$this->dv3->ss->assign("pmpdate", $pmpdate);
 		
 		/***** UTS processing **/
 		$this->dv3->ss->assign("notes_flag", "false");

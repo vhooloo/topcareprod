@@ -1,455 +1,90 @@
-{*
-
-/*********************************************************************************
-
- * SugarCRM Community Edition is a customer relationship management program developed by
-
- * SugarCRM, Inc. Copyright (C) 2004-2012 SugarCRM Inc.
-
- * 
-
- * This program is free software; you can redistribute it and/or modify it under
-
- * the terms of the GNU Affero General Public License version 3 as published by the
-
- * Free Software Foundation with the addition of the following permission added
-
- * to Section 15 as permitted in Section 7(a): FOR ANY PART OF THE COVERED WORK
-
- * IN WHICH THE COPYRIGHT IS OWNED BY SUGARCRM, SUGARCRM DISCLAIMS THE WARRANTY
-
- * OF NON INFRINGEMENT OF THIRD PARTY RIGHTS.
-
- * 
-
- * This program is distributed in the hope that it will be useful, but WITHOUT
-
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-
- * FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more
-
- * details.
-
- * 
-
- * You should have received a copy of the GNU Affero General Public License along with
-
- * this program; if not, see http://www.gnu.org/licenses or write to the Free
-
- * Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
-
- * 02110-1301 USA.
-
- * 
-
- * You can contact SugarCRM, Inc. headquarters at 10050 North Wolfe Road,
-
- * SW2-130, Cupertino, CA 95014, USA. or at email address contact@sugarcrm.com.
-
- * 
-
- * The interactive user interfaces in modified source and object code versions
-
- * of this program must display Appropriate Legal Notices, as required under
-
- * Section 5 of the GNU Affero General Public License version 3.
-
- * 
-
- * In accordance with Section 7(b) of the GNU Affero General Public License version 3,
-
- * these Appropriate Legal Notices must retain the display of the "Powered by
-
- * SugarCRM" logo. If the display of the logo is not reasonably feasible for
-
- * technical reasons, the Appropriate Legal Notices must display the words
-
- * "Powered by SugarCRM".
-
- ********************************************************************************/
-
-
-
-*}
 
 {literal}
  <style type="text/css">
 body{font-family:Verdana,Arial,sans-serif !important}
 table.view { border-collapse:collapse; }
-
 table.view td, table.view th { font-size:100%; } 
-
-table.list th div {
-
-    font-size: 10px;
-
-}
-
-table.view tr:nth-of-type(odd) {
-
- 
-
-  background-color: #def;
-
-}
+table.list th div {  font-size: 10px; }
+table.view tr:nth-of-type(odd) {  background-color: #def;}
 .dateTime{vertical-align:top !important; margin:0 !important; padding:0 !important}
 </style>
 {/literal} 
 <script>
-
     {literal}
-
     $(document).ready(function(){
-
 	    $("ul.clickMenu").each(function(index, node){
-
 	        $(node).sugarActionMenu();
-
 	    });
-
     });
-
-
-
-
-
 function copyToClipboard () {
-
     var appendTxt="";
-
     var date_value = document.getElementById("date_last_modified").value;
-
 	var today="";
-
     if(date_value==""){
-
      today = new Date();
-
 	var dd = today.getDate();
-
 	var mm = today.getMonth()+1; //January is 0!
-
 	var yyyy = today.getFullYear();
-
 	if(dd<10){dd='0'+dd;} if(mm<10){mm='0'+mm;} today = mm+'/'+dd+'/'+yyyy;
-
 	}
-
 	else{
-
 	today = date_value;
-
 	}
-
 	
-
 	var name = document.getElementById('patient_name').value;
-
 	var diff = document.getElementsByName('uts_not_collected_c')[0].value;
-
 	var type="Prescription Refill";
-
 	if(diff!= "NotApplicableInPrescription"){
-
 	type="Patient Encounter";
-
 	}
-
     //appendTxt =appendTxt +type +" of " + name + " on "+ today + "\r\n";
-
 	appendTxt =appendTxt +type + " Date: "+ today + "\r\n";
-
 	var summary = document.getElementById('summary').value;
-
 	if(summary==""){
-
 	summary= "Information Not Available"
-
 	} else
-
 	appendTxt =appendTxt + "Encounter Summary: " +summary+"\r\n";
-
 	
-
     var history = document.getElementById('history_c').value;
-
 	if(history==""){
-
 	history= "Information Not Available"
-
 	} else
-
 	appendTxt =appendTxt + "Notes: " +history+"\r\n";
-
 	
-
-	/*var assessment = document.getElementById('assessment_summary_c').value;
-
-	if(assessment==""){
-
-	assessment= "Information Not Available"
-
-	}
-
-	appendTxt =appendTxt + "Assessment and plan include: " +assessment+"\r\n";
-
-	*/
-
-	
-var daysdispensed="";
-	//daysdispensed = document.getElementById('pills_bottle_disp_c').value;
-//alert(daysdispensed);
+	var daysdispensed="";
 	if(daysdispensed==""){
-
 	daysdispensed= "Information Not Available"
-
 	} else
-
 	appendTxt =appendTxt + "Days of refill dispensed: " +daysdispensed+"\r\n";
-
 	
-
 	
-
 		
-
 	var nextRx = document.getElementById('next_rx_refill_due_c').value;
-
 	if(nextRx==""){
-
 	nextRx= "Information Not Available"
-
 	} else
-
 	appendTxt =appendTxt + "Next Rx refill: " +nextRx+"\r\n";
-
-
-
-	/*var lastUTS = document.getElementById('last_uts_c').value;
-
-	if(lastUTS==""){
-
-	lastUTS= "Information Not Available"
-
-	} else
-
-	appendTxt =appendTxt + "Date of last UTS: " +lastUTS+"\r\n";*/
-
-
-
-	/*var nextUTS = document.getElementById('next_uts_due_c').value;
-
-	if(nextUTS==""){
-
-	nextUTS= "Information Not Available"
-
-	} else
-
-	appendTxt =appendTxt + "Next UTS: " +nextUTS+"\r\n";*/
-
-
-
-	/*var lastPCP = document.getElementById('last_pcp_visit_c').value;
-
-	if(lastPCP==""){
-
-	lastPCP= "Information Not Available"
-
-	} else
-
-	appendTxt =appendTxt + "Last PCP visit: " +lastPCP+"\r\n";*/
-{/literal}
-	{if $smarty.request.action eq "PatientEncounter"}
-{literal}	
-	/*var nextPCP = document.getElementById('next_pcp_visit_c').value;
-
-	if(nextPCP==""){
-
-	nextPCP= "Information Not Available"
-
-	} else
-	appendTxt =appendTxt + "Next PCP visit: " +nextPCP+"\r\n";*/
-{/literal}	
-{/if}
-{literal}
-	/*var lastNCMVisit = document.getElementById('last_pain_nurse_visit_c').value;
-
-	if(lastNCMVisit==""){
-
-	lastNCMVisit= "Information Not Available"
-
-	} else
-
-	appendTxt =appendTxt + "Last NCM Visit: " +lastNCMVisit+"\r\n";*/
-
 	
-
-	/*var lastNCMContact = document.getElementById('last_nurse_phone_contact_c').value;
-
-	if(lastNCMContact==""){
-
-	lastNCMContact= "Information Not Available";
-
-	} else
-
-	appendTxt =appendTxt + "Last NCM Contact: " +lastNCMContact+"\r\n";*/
-
-
-
-/*	var nextNCM = document.getElementById('nxt_appt_pain_c').value;
-
-	if(nextNCM==""){
-
-	nextNCM= "Information Not Available";
-
-	} else
-
-	appendTxt =appendTxt + "Next NCM Visit: " +nextNCM+"\r\n";
-*/
-	
-
-	/*var lastPMP = document.getElementById('last_pmp_review_done_c').value;
-
-	if(lastPMP==""){
-
-	lastPMP= "Information Not Available";
-
-	} else
-
-	appendTxt =appendTxt + "Last PMP review: " +lastPMP+"\r\n";*/
-
-	
-
 	var nextPMP = document.getElementById('next_pmp_review_due_c').value;
-
 	if(nextPMP==""){
-
 	nextPMP= "Information Not Available";
-
 	}else
-
 	appendTxt =appendTxt + "PMP review: " +nextPMP+"\r\n";
-
 	
 	var nextPILL = document.getElementById('next_pill_ct_c').value;
-
 	if(nextPILL==""){
-
 	nextPILL= "Information Not Available";
-
 	}else
-
 	appendTxt =appendTxt + "Pill Count: " +nextPILL+"\r\n";
-
 	
-
-	/*var combine = document.getElementById('next_appt_other_c').value;
-
-	if(combine==""){
-
-		if(nextPMP!="") appendTxt =appendTxt + "Next PMP visit: " +nextPMP+"\r\n";
-
-	}
-
-	else{
-
-		if(nextPMP!="") appendTxt =appendTxt + "Next PMP visit: " +nextPMP+"\r\n";
-
-      var values_of = combine.split('#');
-
-	  for (var i=0;i<values_of.length;i++){
-
-	  var values_indi = values_of[i].split(',');
-
-	  var selectedtext=document.getElementById(values_indi[0]).text;
-
-	  var date_value=values_indi[1];
-
-	  if(i==0)
-
-	  appendTxt=appendTxt + "Next Appointment for " + selectedtext + ": " +date_value+"\r\n" ;
-
-	  else
-
-	  appendTxt=appendTxt + "Next Appointment for " + selectedtext + ": " +date_value+"\r\n" ;
-
-	 }
-
-	}*/
-
-
-
 	 appendTxt=appendTxt+"\r\n"+"Safety Review "+"\r\n";
-
 	 
-
-	/*if( document.getElementById('med_safety_pulm_prob_c').checked)
-
-	{
-
-		appendTxt=appendTxt +"Pulmonary Problems (O2DEP, OSA, COPD): "	;
-
-		appendTxt=appendTxt +"YES"+"\r\n";	
-
-	} else {
-
-	 //appendTxt=appendTxt +"NO"+"\r\n";		
-
-	}*/
-
-	 	
-
-	/*if( document.getElementById('med_safety_sedatives_c').checked)
-
-	{
-
-	 appendTxt=appendTxt +"Taking Sedative Meds: "	;
-
-	 appendTxt=appendTxt +"YES"+"\r\n";	
-
-	} else {
-
-	 //appendTxt=appendTxt +"NO"+"\r\n";		
-
-	}*/
-
-	
-
-	
-
-	
-
-	/*if( document.getElementById('med_safety_high_medd_c').checked)
-
-	{
-
-	 appendTxt=appendTxt +"(>50) MEDD:  ";		
-
-	 appendTxt=appendTxt +"YES"+"\r\n";	
-
-	} else {
-
-	 //appendTxt=appendTxt +"NO"+"\r\n";		
-
-	}*/
-
-
-
-	
-
 	var risklevel = document.getElementById('risklvl_c').value;
 	
 	if(risklevel=="" || risklevel=="N/A"){
 		risklevel= "Undetermined";
 	} 
-	//var risktext;
-	//var newrisk = 0;
-	//newrisk = risklevel;
-	//if (newrisk >= "0-3") risktext = 'LOW';
-	//if (newrisk >= "4-7") risktext = 'MODERATE';
-	//if (newrisk > "gt7") risktext = 'HIGH';
 	appendTxt =appendTxt + "Risk Level: " +risklevel.toUpperCase()+"\r\n";
-
 	
 	var aberrantBehavior="";
 	if ( document.getElementById('abck1').checked ) { aberrantBehavior +=document.getElementById('abtxt1').value; aberrantBehavior += ", ";}
@@ -460,110 +95,30 @@ var daysdispensed="";
 		if ( document.getElementById('abck6').checked ) { aberrantBehavior +=document.getElementById('abtxt6').value;  aberrantBehavior += ", ";}
 		if ( document.getElementById('abck7').checked ) { aberrantBehavior +=document.getElementById('abtxt7').value;  }
 	
-	/*if( document.getElementById('RefusePillCount').selected)
-	{
-		//alert (document.getElementById('RefusePillCount').selected);
-	 aberrantBehavoir=aberrantBehavoir +"-Refuse Pill Count"+"\r\n";	
-	} 
-	if( document.getElementById('RefuseUDT').selected)
-	{
-	 aberrantBehavoir=aberrantBehavoir +"-Refuse UDT"+"\r\n";	
-	} 
-	if( document.getElementById('IncorrectPillCount').selected)
-	{
-	 aberrantBehavoir=aberrantBehavoir +"-Incorrect Pill Count"+"\r\n";	
-	} 
-	if( document.getElementById('UnexpectedUDTResult').selected)
-	{
-	 aberrantBehavoir=aberrantBehavoir +"-Unexpected UDT Result"+"\r\n";	
-	} 
-	if( document.getElementById('UnsanctionedDoseEscalation').selected)
-	{
-	 aberrantBehavoir=aberrantBehavoir +"-Unsanctioned Dose Escalation"+"\r\n";	
-	} 
-	if( document.getElementById('ConcerningBehaviorPMP').selected)
-	{
-	 aberrantBehavoir=aberrantBehavoir +"-PMP"+"\r\n";	
-	} 
-	if( document.getElementById('ConcerningBehaviorOther').selected)
-	{
-	 aberrantBehavoir=aberrantBehavoir +"-Other - family reports, intoxication, disruptive behavior"+"\r\n";	
-	} */
 	
-if (aberrantBehavior != "" ) {
-	appendTxt = appendTxt +"\r\n"+ "Aberrant behavior noted:"+"\r\n" + aberrantBehavior;
-}
+	if (aberrantBehavior != "" ) {
+		appendTxt = appendTxt +"\r\n"+ "Aberrant behavior noted:"+"\r\n" + aberrantBehavior;
+	}
 		
-
-	//if( document.getElementById('aberrant_behavior_noted_c').checked)
-
-	//appendTxt=appendTxt +"Patient confirms taking medications as prescribed: ";	
-
-	/*if( document.getElementById('pt_confirms_taking_c').checked)
-
-	{
-
-	 appendTxt=appendTxt +"Patient confirms taking medications as prescribed:YES"+"\r\n";	
-
-	} else {
-
-	 //appendTxt=appendTxt +"NO"+"\r\n";		
-
-	}*/
-
-	//appendTxt=appendTxt +"Patient confirms storing medications safely: ";
-
-	/*if( document.getElementById('pt_confirms_storing_c').checked)
-
-	{
-
-	 appendTxt=appendTxt +"Patient confirms storing medications safely: YES"+"\r\n";	
-
-	} else {
-
-	 //appendTxt=appendTxt +"NO"+"\r\n";		
-
-	}*/
-
-
-
 	if(document.getElementById('narcotic_contract_in_chart_c').checked){
-
 	appendTxt=appendTxt+"\r\n"+"Contract "+"\r\n";	
-
 	var signeddate = document.getElementById('narcotic_contract_sign_c').value;
-
 	if(signeddate==""){
-
 	signeddate= "Information Not Available";
-
 	}
-
 	appendTxt=appendTxt +"Controlled substance agreement signed: "+signeddate;
-
 	}
-
 	
-
 	if (window.clipboardData) // Internet Explorer
-
     {  
-
         window.clipboardData.setData("Text", appendTxt);
-
 		alert ("Text Copied to Clipboard");
-
     }
-
     else
-
 	{
-
 		alert ("Operation only supported in Internet Explorer!")
-
 	}
-
-	}
+}
 	
 	//new code for risk update 06/05/14
 	$(window).focus(function() {
@@ -590,147 +145,24 @@ if (aberrantBehavior != "" ) {
 	xmlhttp.open("GET","index.php?entryPoint=getriskajax&patid={$smarty.request.record}",true);{literal}
 	xmlhttp.send();
 	
-
 	});
 	
-
-
-
 </script> 
-<!--
-<script>
-
-window.onload = function()
-
-  {
-
-     //alert( {/literal} '{$smarty.session.regnamesort}'); {literal}
-
-	  var combine = {/literal} '{$datarow.next_appt_other_c}'; {literal}
-
-	  
-
-      var values_of = combine.split('#');
-
-	  
-
-	  
-
-	  for (var i=0;i<values_of.length;i++){
-
-	  var values_indi = values_of[i].split(',');
-
-	  var selectedtext=document.getElementById(values_indi[0]).text;
-
-	  var date_value=values_indi[1];
-
-	  $('<li style=\"margin-left:0px;\"> <img src=\"custom/modules/REG_Encounter/tpls/cross.jpg\" class=\"remove\"></img>'+selectedtext+' - '+date_value+' </li>').appendTo('#entry_list');
-
-	  }
-
- }
-
- 
 
 
-
-</script> -->
-<script type="text/javascript">
-
-//var a = document.getElementById( "shortcuts" );
-
-//a.style.display = "none";
-
-//a = document.getElementById( "lastView" );
-
-//a.style.display = "none";
-
-//a = document.getElementById( "globalLinks" );
-
-//a.style.display = "none";
-
-//a = document.getElementById( "sitemapLink" );
-
-//a.style.display = "none";
-
-//a = document.getElementById( "search" );
-
-//a.style.display = "none";
-
-</script> 
 {/literal}	
 
-
-
-{php}
-
-
-
-//session_start();
-
-// store session data
-
-//if (!empty($_POST['regnamesort'])) $_SESSION['regnamesort']=$_POST['regnamesort'];
-
-{/php}
     
 	<script type="text/javascript" src="custom/topcarejs/jquery-sticky-notes/script/jquery.stickynotes.js?version=5"></script>
 	<link rel="stylesheet" href="custom/topcarejs/jquery-sticky-notes/css/jquery.stickynotes.css?version=5" type="text/css">
-	 <link href="custom/topcarejs/jRange-master/jquery.range.css" media="all" rel="stylesheet">
 	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
-
 	<!-- Optional theme -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap-theme.min.css">
-
 	<!-- Latest compiled and minified JavaScript -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-		  <script src="custom/topcarejs/jRange-master/jquery.range.js"></script>
 
-
-{literal}<!--script type="text/javascript">
-$(document).ready(function() {
-    alert("woohoo java");
-	try {alert(JSON.stringify(jQuery.fn.stickyNotes.notes));}  catch(err1){alert("doesnt exisit");} 
-	if ( document.getElementById("stickynotes_history_c").value != "" )
-     	{ try {options = JSON.parse('{"notes":' + document.getElementById("stickynotes_history_c").value + '}'); $("#notes").stickyNotes(options);alert("inited");}  catch(err){$("#notes").stickyNotes();}  }
-	else { $("#notes").stickyNotes();}
-	//$("#notes").stickyNotes();
-});
-</script-->
-
-<script type="text/javascript">
-$(document).ready(function() {
-//console.log("ready");
- $('.single-slider').jRange({
-    from: 0,
-    to: 10,
-    step: 1,
-    scale: ["<b style='color:green;font-size:12px;'> 0 No Pain </b>",
-			"<b style='color:green;font-size:14px;'> 1</b>",
-			"<b style='color:green;font-size:14px;'> 2</b>",
-			"<b style='color:green;font-size:14px;'> 3</b>",
-			"<b style='color:orange;font-size:14px;'> 4</b>",
-			"<b style='color:orange;font-size:14px;'> 5</b>",
-			"<b style='color:orange;font-size:14px;'> 6</b>",
-			"<b style='color:orange;font-size:14px;'> 7</b>",
-			"<b style='color:red;font-size:14px;'> 8</b>",
-			"<b style='color:red;font-size:14px;'> 9</b>",
-			"<b style='color:red;font-size:12px;'> 10 Worst Pain"],
-    format: '%s',
-    width: 250,
-    showLabels: true,
-	theme: "theme-blue",
-});
-});
-</script>
-
-<style>
-	.theme-blue .scale ins{ color:black;}
-</style>
-{/literal}		  
-		  
-<div class="clear"></div>
+	<div class="clear"></div>
 <form action="index.php" method="POST" name="{$form_name}" id="{$form_id}" {$enctype}>
  <table id="notes" style="border-color: rgb( 100, 100, 255); border-style: solid none none none ; border-collapse:collapse; margin-top: 0;vertical-align: top;" width="100%" cellpadding="0" cellspacing="0" border="0" class="edit view panelContainer">
    <tr >
@@ -821,32 +253,10 @@ $(document).ready(function() {
     
    </table >
    {/if}
-
    <table style="width:100%;border-color: rgb( 100, 100, 255); border-style: solid none none none; border-width: 2px; margin-top: 0;vertical-align: top;">
     <tr>
-     <td width="35%"> <strong>Aberrant Behaviors Noted:</strong> <br>
-      <!--select name="abherrent_behaviors_c[]" id="abherrent_behaviors_c" tabindex="60" multiple="multiple" style="height:200px; width:340px !important">
-       <optgroup>
-       <optgroup label="Monitoring Non-adherence">
-       <option value="RefusePillCount" id="RefusePillCount" >Refuse pill count</option>
-       <option value="RefuseUDT" id="RefuseUDT">Refuse UDT</option>
-       </optgroup>
-       <optgroup>
-       <optgroup label="Monitoring Concerning behavior">
-       <option value="IncorrectPillCount" id="IncorrectPillCount">Incorrect pill count</option>
-       <option value="UnexpectedUDTResult" id="UnexpectedUDTResult">Unexpected UDT result</option>
-       </optgroup>
-       <optgroup>
-       <optgroup label="Med management Concerning behavior">
-       <option value="UnsanctionedDoseEscalation" id="UnsanctionedDoseEscalation">Unsanctioned dose escalation</option>
-       </optgroup>
-       <optgroup>
-       <optgroup label="Concerning behavior">
-       <option value="ConcerningBehaviorPMP" id="ConcerningBehaviorPMP">PMP</option>
-       <option value="ConcerningBehaviorOther" id="ConcerningBehaviorOther">Other - family reports, intoxication, disruptive behavior</option>
-       </optgroup>
-      </select-->
-	  
+     <td width="48%"> <strong>Aberrant Behaviors Noted:</strong> <br>
+ 	  
 	  	  {if  ($notes_flag != "true")}  
 				   <div class="row">
 			  <div class="col-md-8">
@@ -924,181 +334,82 @@ $(document).ready(function() {
 		{/if}
 	  
 	  </td>
-     <td width="30%" style="padding-left:2px !important; vertical-align:top !important" valign="top"><strong>Risk Level &nbsp;</strong>
+	  
+     <td width="52%" style="padding-left:2px !important; vertical-align:top !important" valign="top"><strong>Risk Level &nbsp;</strong>
       <input size="10" type="text" name='risklvl_c' id='risklvl_c' readonly value="{if $finalscore eq ""}N/A{elseif $finalscore eq 'N/A'}N/A{elseif $finalscore eq "0-3" }LOW{elseif $finalscore eq "4-7"}Moderate{elseif $finalscore eq "gt7"}High{else}{$finalscore}{/if}" />
       &nbsp;&nbsp;<input style="font-size:12px !important" type="button" id="view-button" onclick="window.open('index.php?module=REG_Patient&action=riskevaluation&patid={$smarty.request.record}&flag=1')" title="View Risk Evaluation" class="button primary" value="View"><br>
       <input type="hidden" name="aberrant_behavior_noted_cx" value="0">
-	   <!-- new PEG slider code -->
-	 
-	  <div class="row" style="margin-bottom:40px;">
-	  		  <div  style="margin-bottom:20px;"> 1. What number best describes your pain on average in the past week? </div>
-	  <input type="hidden" class="single-slider theme-blue" value="{$datarow.peg1_c}" style="margin-bottom:20px;" id="peg1_c" name="peg1_c">
-
-	  </div>
-	  	  <div class="row" style="margin-bottom:40px;">
-		  <div  style="margin-bottom:20px;"> 2. What number best describes how, during the past week, pain has interfered
-with your enjoyment of life? </div>
-	  	  <input type="hidden" class="single-slider" value="{$datarow.peg2_c}" id="peg2_c" name="peg2_c">
-		  </div>
-		  <div class="row" style="margin-bottom:40px;"> <div  style="margin-bottom:20px;"> 3. What number best describes how, during the past week, pain has interfered
-with your general activity? </div>
-	  	  <input type="hidden" class="single-slider" value="{$datarow.peg3_c}" id="peg3_c" name="peg3_c">
-		  </div>
-		  
-      </td>
-		  <!-- PEG slider -->
       
-      <!--<input type="checkbox" tabindex="72" id="aberrant_behavior_noted_c" name="aberrant_behavior_noted_c" value="1" title="" {if ( $datarow.aberrant_behavior_noted_c  > 0   )} checked="checked" {/if}    > &nbsp;Aberrant Behavior Noted--> 
-      <!-- Dummy hidden fields start (Navraj) -->
-        <input type="hidden" name="pt_confirms_taking_cx" value="0">
-        <input type="hidden" id="pt_confirms_taking_c" name="pt_confirms_taking_c" {if ( $datarow.pt_confirms_taking_c > 0)} value="1" {/if}>
-        <input type="hidden" name="pt_confirms_storing_cx" value="0">
-		<input type="hidden" name="next_appt_other_c" id="next_appt_other_c" value="0">
-        <input type="hidden" id="pt_confirms_storing_c" name="pt_confirms_storing_c" {if ( $datarow.pt_confirms_storing_c  > 0 )} value="1" {/if}>
-        <input type="hidden" name="narcotic_contract_in_chart_cx" value="0">
-        
-        <input type="hidden" name="nxt_appt_pain_c" id="nxt_appt_pain_c" value="{$datarow.nxt_appt_pain_c|date_format:'%m/%d/%Y'}" >
-        <input type="hidden" name="pretty_date" id="pretty_date" value="" >
-      
-      <!-- Dummy hidden fields end (Navraj) -->
-
-      {if $smarty.request.action=='PetientEncounter'}
-      
-      <input type="checkbox" tabindex="74" id="pt_confirms_taking_c" name="pt_confirms_taking_c" value="1" title=""  {if ( $datarow.pt_confirms_taking_c > 0)} checked="checked" {/if} > &nbsp;Patient confirms taking medications as prescribed<br>
-      &nbsp;<br/>
-      <input type="hidden" name="pt_confirms_storing_cx" value="0">
-      <input type="checkbox" tabindex="76" id="pt_confirms_storing_c" name="pt_confirms_storing_c"  value="1" title=""  {if ( $datarow.pt_confirms_storing_c  >
-      0   )} checked="checked" {/if}  > &nbsp;Patient confirms storing medications safely<br>
-      &nbsp;<br/>
-      {/if} <br>
-	  
-	  <td width="35%"> <!-- right hand fields -->
+ 
       <table border="0" cellpadding="0" cellspacing="0" style="width:100%">
 	  
 	  <tr>  <!-- NExt RX Refill -->
         <td style="vertical-align:middle !important" width="70%" align="right" >Next Rx Refill : &nbsp;&nbsp;</td>
         <td width="30%"><span class="dateTime"> {literal} 
          <script type="text/javascript">
-
-function check_date(element){
-
-
-
- //get today's date in string
-
- var todayDate = new Date();
-
- //need to add one to get current month as it is start with 0
-
- var todayMonth = todayDate.getMonth() + 1;
-
- var todayDay = todayDate.getDate();
-
- var todayYear = todayDate.getFullYear();
-
- var todayDateText = todayMonth + "/" + todayDay + "/" +  todayYear;
-
- //
-
-
-
-//get date input from SharePoint DateTime Control
-
- var inputDateText = element.value;
-
- //
-
- 
-
-//Convert both input to date type
-
- var inputToDate = Date.parse(inputDateText);
-
- var todayToDate = Date.parse(todayDateText);
-
- //
-
-
-
-//compare dates
-
- if (inputToDate > todayToDate) {element.style.color='black';}
-
- else if (inputToDate < todayToDate) {element.style.color='red';}
-
- else {element.style.color='black';}
-
-}
-
-</script> 
+			function check_date(element){
+			 //get today's date in string
+			 var todayDate = new Date();
+			 //need to add one to get current month as it is start with 0
+			 var todayMonth = todayDate.getMonth() + 1;
+			 var todayDay = todayDate.getDate();
+			 var todayYear = todayDate.getFullYear();
+			 var todayDateText = todayMonth + "/" + todayDay + "/" +  todayYear;
+			 //
+			//get date input from SharePoint DateTime Control
+			 var inputDateText = element.value;
+			 //
+			 
+			//Convert both input to date type
+			 var inputToDate = Date.parse(inputDateText);
+			 var todayToDate = Date.parse(todayDateText);
+			 //
+			//compare dates
+			 if (inputToDate > todayToDate) {element.style.color='black';}
+			 else if (inputToDate < todayToDate) {element.style.color='red';}
+			 else {element.style.color='black';}
+			}
+		</script> 
          {/literal}
          <input class="date_input" autocomplete="off" tabindex="24" type="text" name="next_rx_refill_due_c" onchange='check_date(this);' id="next_rx_refill_due_c" value="{$datarow.next_rx_refill_due_c|date_format:'%m/%d/%Y'}" title="" size="10" maxlength="10" {if ( time() - strtotime($datarow.next_rx_refill_due_c)  > 0   )} style="color:red" {/if} >&thinsp;<img src="themes/Sugar5/images/jscalendar.gif?v=GogGz9QEok1-e0Ft6rexxQ" alt="Enter Date" style="position:relative; height:20px; bottom:3px" border="0" id="next_rx_refill_due_c_trigger">
          </span> {literal} 
          <script type="text/javascript">
-
-Calendar.setup ({
-
-inputField : "next_rx_refill_due_c",
-
-ifFormat : "%m/%d/%Y %I:%M%P",
-
-daFormat : "%m/%d/%Y %I:%M%P",
-
-button : "next_rx_refill_due_c_trigger",
-
-singleClick : true,
-
-dateStr : "",
-
-startWeekday: 0,
-
-step : 1,
-
-weekNumbers:false
-
-}
-
-);
-
-</script> 
+				Calendar.setup ({
+				inputField : "next_rx_refill_due_c",
+				ifFormat : "%m/%d/%Y %I:%M%P",
+				daFormat : "%m/%d/%Y %I:%M%P",
+				button : "next_rx_refill_due_c_trigger",
+				singleClick : true,
+				dateStr : "",
+				startWeekday: 0,
+				step : 1,
+				weekNumbers:false
+				}
+				);
+		</script> 
          {/literal}</td>
        </tr>
 	  
 	  <tr> <!-- PILL COUNT -->
         <td style="vertical-align:middle !important" align="right">
-{if $smarty.request.action=='PetientEncounter'}
-         &nbsp;Next Pill Count {else}Pill Count {/if} : &nbsp;&nbsp;</td>
+		Pill Count: &nbsp;&nbsp;</td>
         <td><span class="dateTime">
          
-
-<input class="date_input" autocomplete="off" tabindex="32" type="text" onchange='check_date(this);' name="next_pill_ct_c" id="next_pill_ct_c" value="{$datarow.next_pill_ct_c|date_format:'%m/%d/%Y'}" title="" size="10" maxlength="10" {if ( time() - strtotime($datarow.next_pill_ct_c)  > 0   )} style="color:red" {/if}>&thinsp;<img src="themes/Sugar5/images/jscalendar.gif?v=GogGz9QEok1-e0Ft6rexxQ" alt="Enter Date" style="position:relative; height:20px; bottom:3px" border="0" id="next_pill_ct_c_trigger">
+		<input class="date_input" autocomplete="off" tabindex="32" type="text" onchange='check_date(this);' name="next_pill_ct_c" id="next_pill_ct_c" value="{$datarow.next_pill_ct_c|date_format:'%m/%d/%Y'}" title="" size="10" maxlength="10" {if ( time() - strtotime($datarow.next_pill_ct_c)  > 0   )} style="color:red" {/if}>&thinsp;<img src="themes/Sugar5/images/jscalendar.gif?v=GogGz9QEok1-e0Ft6rexxQ" alt="Enter Date" style="position:relative; height:20px; bottom:3px" border="0" id="next_pill_ct_c_trigger">
          </span> {literal}<script type="text/javascript">
-
-Calendar.setup ({
-
-inputField : "next_pill_ct_c",
-
-ifFormat : "%m/%d/%Y %I:%M%P",
-
-daFormat : "%m/%d/%Y %I:%M%P",
-
-button : "next_pill_ct_c_trigger",
-
-singleClick : true,
-
-dateStr : "",
-
-startWeekday: 0,
-
-step : 1,
-
-weekNumbers:false
-
-}
-
-);
-
-</script>{/literal} </td>
+				Calendar.setup ({
+				inputField : "next_pill_ct_c",
+				ifFormat : "%m/%d/%Y %I:%M%P",
+				daFormat : "%m/%d/%Y %I:%M%P",
+				button : "next_pill_ct_c_trigger",
+				singleClick : true,
+				dateStr : "",
+				startWeekday: 0,
+				step : 1,
+				weekNumbers:false
+				}
+				);
+				</script>{/literal} </td>
        </tr>
 	   
        <tr> <!-- Narcotic contract -->
@@ -1108,277 +419,53 @@ weekNumbers:false
         <td style="width:110px !important" width="110"><span class="dateTime">
          <input tabindex="79" class="date_input" autocomplete="off" type="text" name="narcotic_contract_sign_c" id="narcotic_contract_sign_c" title="" size="10" maxlength="10">&thinsp;<img src="themes/Sugar5/images/jscalendar.gif?v=GogGz9QEok1-e0Ft6rexxQ" alt="Enter Date" style="position:relative; height:20px; bottom:3px" border="0" id="narcotic_contract_sign_c_trigger"> </span></td>
        </tr>
-       
-       {if $smarty.request.action=='PetientEncounter'}
+      {literal} 
+      <script type="text/javascript">
+			Calendar.setup ({
+			inputField : "narcotic_contract_sign_c",
+			ifFormat : "%m/%d/%Y %I:%M%P",
+			daFormat : "%m/%d/%Y %I:%M%P",
+			button : "narcotic_contract_sign_c_trigger",
+			singleClick : true,
+			dateStr : "",
+			startWeekday: 0,
+			step : 1,
+			weekNumbers:false
+			}
+			);
+			</script> 
+      {/literal}
+      
        <tr>
-        <td align="right">Next NCM Visit : &nbsp;&nbsp;</td>
-        <td><span class="dateTime">
-         <input class="date_input" tabindex="48" autocomplete="off" type="text" name="nxt_appt_pain_c" id="nxt_appt_pain_c" onchange='check_date(this);' value="{$datarow.nxt_appt_pain_c|date_format:'%m/%d/%Y'}" title=""  size="10" maxlength="10" {if ( time() - strtotime($datarow.nxt_appt_pain_c)  >
-         0   )} style="color:red" {/if}> <img src="themes/Sugar5/images/jscalendar.gif?v=GogGz9QEok1-e0Ft6rexxQ" alt="Enter Date" style="position:relative; height:16px; bottom:3px" border="0" id="nxt_appt_pain_c_trigger"> </span> {literal} 
-         <script type="text/javascript">
-
-Calendar.setup ({
-
-inputField : "nxt_appt_pain_c",
-
-ifFormat : "%m/%d/%Y %I:%M%P",
-
-daFormat : "%m/%d/%Y %I:%M%P",
-
-button : "nxt_appt_pain_c_trigger",
-
-singleClick : true,
-
-dateStr : "",
-
-startWeekday: 0,
-
-step : 1,
-
-weekNumbers:false
-
-}
-
-);
-
-</script> 
-         {/literal}</td>
-       </tr>
-       {/if}
-
-       <tr>
-        <td style="vertical-align:middle !important" align="right">{if $smarty.request.action=='PetientEncounter'}
-         &nbsp;Next PMP Review {else}PMP Review {/if} &nbsp; (<a href='https://gateway.hhs.state.ma.us/authn/login.do' target='_blank' style='display: inline; text-align: right;'>Link to PMP</a>) : &nbsp;&nbsp;</td>
+        <td style="vertical-align:middle !important" align="right">PMP Review  &nbsp; (<a href='https://gateway.hhs.state.ma.us/authn/login.do' target='_blank' style='display: inline; text-align: right;'>Link to PMP</a>) : &nbsp;&nbsp;</td>
         <td><span class="dateTime">
          
-
-<input class="date_input" tabindex="56" autocomplete="off" type="text" name="next_pmp_review_due_c" id="next_pmp_review_due_c" value="{$pmpdate|date_format:'%m/%d/%Y'}" disabled="disabled" style="background-color:#EEE;"  title=""  size="10" maxlength="10">&thinsp;<!--img src="themes/Sugar5/images/jscalendar.gif?v=GogGz9QEok1-e0Ft6rexxQ" alt="Enter Date" style="position:relative; height:20px; top:3px" border="0" id="next_pmp_review_due_c_trigger" -->
+<input class="date_input" tabindex="56" autocomplete="off" type="text" name="next_pmp_review_due_c" id="next_pmp_review_due_c" value="{$datarow.next_pmp_review_due_c|date_format:'%m/%d/%Y'}" title=""  size="10" maxlength="10">&thinsp;<img src="themes/Sugar5/images/jscalendar.gif?v=GogGz9QEok1-e0Ft6rexxQ" alt="Enter Date" style="position:relative; height:20px; top:3px" border="0" id="next_pmp_review_due_c_trigger" >
          </span> {literal} 
          <script type="text/javascript">
-
-Calendar.setup ({
-
-inputField : "next_pmp_review_due_c",
-
-ifFormat : "%m/%d/%Y %I:%M%P",
-
-daFormat : "%m/%d/%Y %I:%M%P",
-
-button : "next_pmp_review_due_c_trigger",
-
-singleClick : true,
-
-dateStr : "",
-
-startWeekday: 0,
-
-step : 1,
-
-weekNumbers:false
-
-}
-
-);
-
-</script> 
+				Calendar.setup ({
+				inputField : "next_pmp_review_due_c",
+				ifFormat : "%m/%d/%Y %I:%M%P",
+				daFormat : "%m/%d/%Y %I:%M%P",
+				button : "next_pmp_review_due_c_trigger",
+				singleClick : true,
+				dateStr : "",
+				startWeekday: 0,
+				step : 1,
+				weekNumbers:false
+				}
+				);
+				</script> 
          {/literal}</td>
        </tr>
-       {if $smarty.request.action=='PetientEncounter'}
-       <tr>
-        <td>Next appointment for : &nbsp;&nbsp;</td>
-        <td><select name="pretty" id="pretty" tabindex="60" class="ui-selectmenu-menu">
-          <option id="NOT">Please Select</option>
-          <option id="PT">Physical Therapy</option>
-          <option id="APC">Anesthesia Pain Clinic</option>
-          <option id="INJ">Injection Clinic</option>
-          <option id="BEH">Behavioral Health</option>
-          <option id="STR">Stress Reduction Clinic</option>
-          <option id="NEU">Neuro Pain Clinic</option>
-          <option id="NNP">Non-Network Pain Clinic</option>
-          <option id="OTH">Other</option>
-         </select>
-         <br>
-         <span class="dateTime">
-         <input class="date_input" autocomplete="off" type="text" name="pretty_date" id="pretty_date" tabindex="64" readonly onchange='check_date(this);' value="" title=""  size="10" maxlength="10">
-         <img src="themes/Sugar5/images/jscalendar.gif?v=GogGz9QEok1-e0Ft6rexxQ" alt="Enter Date" style="position:relative; height:20px; top:3px" border="0" id="pretty_date_trigger"> </span> {literal}<script type="text/javascript">
-
-Calendar.setup ({
-
-inputField : "pretty_date",
-
-ifFormat : "%m/%d/%Y %I:%M%P",
-
-daFormat : "%m/%d/%Y %I:%M%P",
-
-button : "pretty_date_trigger",
-
-singleClick : true,
-
-dateStr : "",
-
-startWeekday: 0,
-
-step : 1,
-
-weekNumbers:false
-
-}
-
-);
-
-</script>{/literal}
-         <input title="Add" accesskey="a" class="button" onclick="add_date_to_list()" tabindex="68" type="button" name="button" value="Add" id="Add_button">
-         {literal} 
-         <script type="text/javascript">
-$(document).ready(fucntion() {
-$('img.remove').live('click', function(){
-
-	var inde=$(this).closest('li').index();
-
-    $(this).closest('li').remove();
-
-    var combine = document.getElementById('next_appt_other_c').value
-	
-	var values_of = combine.split('#');
-
-	var final_value='';
-
-	for (var i=0;i<values_of.length;i++)
-
-	{ 
-
-	 
-
-	  if(i!=inde){
-
-		if(final_value==''){
-
-		final_value=values_of[i];
-
-		}
-
-		else{
-
-	
-
-		final_value=final_value+"#"+values_of[i];
-
-		}
-
-	  }	
-
-	}
-
-	document.getElementById('next_appt_other_c').value=final_value;
-
-	});
-
-	
-
-function add_date_to_list(){
-
-
-
-var date_value = document.getElementById('pretty_date').value;
-
-var type_value = document.getElementById('pretty');
-
-var selectedid = type_value.options[type_value.selectedIndex].id;
-
-var selectedtext = type_value.options[type_value.selectedIndex].text;
-
-if(selectedid == "NOT"){
-
-alert("Please Select the Type");
-
-return;
-
-}
-
-if(date_value == "")
-
-{
-
-alert("Please enter the date");
-
-return;
-
-}
-
-else{
-
-	var completevalue = document.getElementById('next_appt_other_c').value;
-
-	if(completevalue==""){
-
-	completevalue=selectedid+","+date_value;
-
-	}
-
-	else{
-
-	completevalue=completevalue+"#"+selectedid+","+date_value;
-
-	}
-
-    
-
-    $('<li style="margin-left:0px;"> <img src="custom/modules/REG_Encounter/tpls/cross.jpg" class="remove"></img>'+selectedtext+' - '+date_value+' </li>').appendTo('#entry_list');
-
-
-
-    
-
-document.getElementById('next_appt_other_c').value = completevalue;
-
-document.getElementById('pretty_date').value="";
-
-
-
-}
-
-
-
-}
-});
-</script> 
-         {/literal} </td>
-       </tr>{/if}
+ 
        <tr><td colspan="2"><span id="copy_text_div"></span> &nbsp;<textarea id="clipboard_textarea" style="display:none"></textarea></td></tr>
        <tr> <td align="right" style="m-right:10px; !important"> {{sugar_button module="$module" id="SAVE" view="$view" form_id="$form_id" location="HEADER" appendTo="header_buttons"}} &nbsp; {{sugar_action_menu buttons=$header_buttons class="fancymenu" flat=true}} </td>
 	    <!-- 10/24/2014 - removed this copy button, make it look like others, move to PrescriptionRefill.phph file -->
 		<td>&nbsp;<br>&nbsp; <!--input style="font-size:12px !important" type="button" id="copy-button" onclick="copyToClipboard()" title="Copy information to Logician." class="button primary" value="Copy"--></td>
     </tr>
       </table>
-      {literal} 
-      <script type="text/javascript">
-
-Calendar.setup ({
-
-inputField : "narcotic_contract_sign_c",
-
-ifFormat : "%m/%d/%Y %I:%M%P",
-
-daFormat : "%m/%d/%Y %I:%M%P",
-
-button : "narcotic_contract_sign_c_trigger",
-
-singleClick : true,
-
-dateStr : "",
-
-startWeekday: 0,
-
-step : 1,
-
-weekNumbers:false
-
-}
-
-);
-
-</script> 
-      {/literal} </td>
+ </td>
     </tr>
     
    </table>
@@ -1489,7 +576,6 @@ weekNumbers:false
 			{rdelim}
 		else
 			{ldelim} document.getElementById(texttgt).style.background='#EEE'; 
-
 			{rdelim}
 	{rdelim}
 	
@@ -1559,13 +645,9 @@ weekNumbers:false
  
  <span id='tabcounterJS'><script>SUGAR.TabFields=new Array();//this will be used to track tabindexes for references</script></span>
  <div id="{{$form_name}}_tabs"
-
 {{if $useTabs}}
-
 class="yui-navset"
-
 {{/if}}
-
 >
  {{if $useTabs}}
  
@@ -1649,15 +731,11 @@ class="yui-navset"
      
      {{if isset($panelState) && $panelState == 'collapsed'}} 
      <script>
-
       document.getElementById('detailpanel_{{$smarty.foreach.section.iteration}}').className += ' collapsed';
-
     </script> 
      {{else}} 
      <script>
-
       document.getElementById('detailpanel_{{$smarty.foreach.section.iteration}}').className += ' expanded';
-
     </script> 
      {{/if}} </h4>
     {{/if}}
@@ -1685,92 +763,47 @@ class="yui-navset"
    {{/foreach}} </div>
  </div>
  <script language="javascript">
-
     var _form_id = '{$form_id}';
-
     {literal}
-
     SUGAR.util.doWhen(function(){
-
         _form_id = (_form_id == '') ? 'EditView' : _form_id;
-
         return document.getElementById(_form_id) != null;
-
     }, SUGAR.themes.actionMenu);
-
     {/literal}
-
 </script>
 </form>
 {{if $externalJSFile}}
-
 {sugar_include include=$externalJSFile}
-
 {{/if}}
-
-
-
 {$set_focus_block}
-
-
-
 {{if isset($scriptBlocks)}} 
-
 <!-- Begin Meta-Data Javascript --> 
-
 {{$scriptBlocks}} 
-
 <!-- End Meta-Data Javascript --> 
-
 {{/if}} 
 <script>SUGAR.util.doWhen("document.getElementById('EditView') != null",
-
         function(){ldelim}SUGAR.util.buildAccessKeyLabels();{rdelim});
-
 </script> 
 {{if $useTabs}}
-
 {sugar_getscript file="cache/include/javascript/sugar_grp_yui_widgets.js"} 
 <script type="text/javascript">
-
 var {{$form_name}}_tabs = new YAHOO.widget.TabView("{{$form_name}}_tabs");
-
 {{$form_name}}_tabs.selectTab(0);
-
 </script> 
 {{/if}} 
 <script type="text/javascript">
-
 YAHOO.util.Event.onContentReady("{{$form_name}}",
-
     function () {ldelim} initEditView(document.forms.{{$form_name}}) {rdelim});
-
 //window.setTimeout(, 100);
-
 {{if $module == "Users"}}
-
 window.onbeforeunload = function () {ldelim} return disableOnUnloadEditView(); {rdelim};
-
 {{else}}
-
 window.onbeforeunload = function () {ldelim} return onUnloadEditView(); {rdelim};
-
 {{/if}}
-
 // bug 55468 -- IE is too aggressive with onUnload event
-
 if ($.browser.msie) {ldelim}
-
 $(document).ready(function() {ldelim}
-
     $(".collapseLink,.expandLink").click(function (e) {ldelim} e.preventDefault(); {rdelim});
-
   {rdelim});
-
 {rdelim}
-
-
-
-
-
 </script> 

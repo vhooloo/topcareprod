@@ -14,7 +14,7 @@ function after (&$bean, $event, $arguments)
 //	$id="E".$id;	
 //	}
 //	else{
-//	header("Location: index.php?action=ajaxui#ajaxUILoc=index.php%3Fmodule%3DREG_Patient%26action%3Dindex%26parentTab%3DRegistry"); 
+	header("Location: index.php?action=ajaxui#ajaxUILoc=index.php%3Fmodule%3DREG_Patient%26action%3Dindex%26parentTab%3DRegistry"); 
 //	$id="P".$id;	
 //	}
 	
@@ -39,7 +39,7 @@ function after (&$bean, $event, $arguments)
 //if(isset($_SESSION[$id.'urinetoxscreen_c'])){unset($_SESSION[$id.'urinetoxscreen_c']);} 
 
 //exit;
-//}
+}
 
 }
 

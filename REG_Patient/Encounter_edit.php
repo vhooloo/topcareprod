@@ -66,7 +66,9 @@ echo "<script type='text/javascript'>
 
 echo '<script src="custom/jquery/jquery-1.9.1.js"></script>
 	<script src="custom/jquery/accordion/js/jquery-ui-1.10.0.custom.js"></script>
-	<script src="custom/jquery/accordion/js/jquery-migrate-1.2.1.min.js"></script>';
+	<script src="custom/jquery/accordion/js/jquery-migrate-1.2.1.min.js"></script>
+		<script src="custom/topcarejs/jRange-master/jquery.range.js">
+	 <link href="custom/topcarejs/jRange-master/jquery.range.css" media="all" rel="stylesheet">';
 
 echo "<link rel='stylesheet' type='text/css' href='../themes/" . $theme . "/style.css' />";
 
@@ -445,7 +447,8 @@ TemplateHandler::clearCache('REG_Encounter','EditView.tpl');   //ADDED :--------
 				//echo "\r\n document.getElementById('pills_bottle_disp_c').value='".$this->bean3->pills_bottle_disp_c."'";
 				}
 			if($this->bean3->risklvl_c!=null){
-				echo "var values = [".$this->bean3->risklvl_c."];
+				//echo "var values = [".$this->bean3->risklvl_c."];
+				echo "var values = '".$this->bean3->risklvl_c."';
 			$('#risklvl_c').val(values);";
 			
 				}

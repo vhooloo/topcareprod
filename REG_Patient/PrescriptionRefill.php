@@ -21,6 +21,8 @@ echo '<script type="text/javascript" src="custom/jquery/jquery-1.9.1.js"></scrip
 	<![endif]--> 
 	<script type="text/javascript" src="custom/topcarejs/jquery-sticky-notes/script/jquery.stickynotes.js?version=2"></script>
 	<link rel="stylesheet" href="custom/topcarejs/jquery-sticky-notes/css/jquery.stickynotes.css" type="text/css">
+	<script src="custom/topcarejs/jRange-master/jquery.range.js">
+	 <link href="custom/topcarejs/jRange-master/jquery.range.css" media="all" rel="stylesheet">
 	
 	<script type="text/javascript"> 
 	$(function() {
@@ -59,6 +61,7 @@ echo '<script type="text/javascript" src="custom/jquery/jquery-1.9.1.js"></scrip
 	
 	$(document).ready(function() {
     
+
  
     $(".add-tab").click(function() {
 
@@ -69,7 +72,7 @@ echo '<script type="text/javascript" src="custom/jquery/jquery-1.9.1.js"></scrip
             "<li ><a href=\'#tabs-" + num_tabs + "\'>" + tab_name + "</a><span class=\"ui-icon ui-icon-close\">Remove Tab</span></li>"
         );
 	$("div#tabs").append(
-			"<div style=\'margin: 0 auto;display: table-footer-group;\' id=\'tabs-" + num_tabs + "\'><iframe scrolling=\'no\' frameborder=\'0\' width=\'790px\' height=\'550px\' src =\'"+a+"\'></iframe></div>"
+			"<div style=\'margin: 0 auto;display: table-footer-group;\' id=\'tabs-" + num_tabs + "\'><iframe scrolling=\'no\' frameborder=\'0\' width=\'1200px\' height=\'700px\' src =\'"+a+"\'></iframe></div>"
            
         );
         $("div#tabs").tabs("refresh");
@@ -92,6 +95,17 @@ echo '<script type="text/javascript" src="custom/jquery/jquery-1.9.1.js"></scrip
      	{ try {options = JSON.parse(\'{"notes":\' + document.getElementById("stickynotes_history_c").value + \'}\'); $("#notes").stickyNotes(options);}  catch(err){$("#notes").stickyNotes();}  }
 	else {  $("#notes").stickyNotes();}
 	
+});
+
+$(".single-slider").jRange({
+    from: 0,
+    to: 10,
+    step: 1,
+    scale: ["0 No Pain",1,2,3,4,5,6,7,8,9,"10 Worst Pain"],
+    format: "%s",
+    width: 250,
+    showLabels: true,
+	theme: "theme-blue",
 });
 
 	</script> ';
@@ -782,18 +796,19 @@ $metadataFile = $this->getMetaDataFile();
 			echo "<script> set_session('indication','".$value."');</script>";		
 		}
 		
-		$query2b = "SELECT mrn_c FROM reg_patient_cstm where id_c = '".$this->bean->id."'" ;
+		$query2b = "SELECT mrn_c, pmp_date_c FROM reg_patient_cstm where id_c = '".$this->bean->id."'" ;
 		$resultb = $this->bean->db->query($query2b, true);		
 		if(($rowb = $this->bean->db->fetchByAssoc($resultb) ) != null )
 		{
 			$mrn = $rowb['mrn_c'];
+					$pmpdate = $rowb['pmp_date_c'];
 					
 		} else {
 		    $mrn = "";
 		}
 		
 		echo "<script> set_session('mrn','".$mrn."');</script>";
-		
+			$this->dv3->ss->assign("pmpdate", $pmpdate);
 		
 		/***** UTS processing 07/11/2014 **/
 		
@@ -840,7 +855,7 @@ $metadataFile = $this->getMetaDataFile();
        // echo $this->dv->display();
 	   
 		$this->dv3->process();
-		echo "<table ><tr><td  width='800' style='width:800px; border-color: rgb( 100, 100, 255); border-style: ridge;border-width: 2px;margin-top: 0;vertical-align: top;'  >";
+		echo "<table ><tr><td   style='width:1200px; border-color: rgb( 100, 100, 255); border-style: ridge;border-width: 2px;margin-top: 0;vertical-align: top;'  >";
 		echo '<div   id="tabs">
 	<ul id ="tablist">
 		<li><a href="#tabs-1"><b>New</b></a></li>
